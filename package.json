@@ -1,0 +1,21 @@
+{
+  "name": "Nextion",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:tam-bourine/Nextion.git",
+  "author": "75asa <75asa.me@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/main.js"
+  },
+  "devDependencies": {
+    "ts-node": "^10.4.0",
+    "tsconfig-paths": "^3.12.0",
+    "typescript": "^4.5.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "yarn"
+}
