@@ -15,7 +15,9 @@ export namespace Config {
   }
   export namespace Notion {
     export const KEY = process.env.NOTION_KEY;
+    export const DATABASE_ID = process.env.NOTION_DATABASE_ID;
     export namespace Status {
+      export const PROP_NAME = process.env.NOTION_STATUS_PROP_NAME || "Status";
       export const NEXT = process.env.NOTION_STATUS_NEXT || "Next";
       export const DONE = process.env.NOTION_STATUS_DONE || "Done";
     }
