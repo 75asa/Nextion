@@ -16,11 +16,16 @@ export namespace Config {
   export namespace Notion {
     export const KEY = process.env.NOTION_KEY;
     export const DATABASE_ID = process.env.NOTION_DATABASE_ID;
-    export namespace Status {
-      export const PROP_NAME = process.env.NOTION_STATUS_PROP_NAME || "Status";
-      export const NEXT = process.env.NOTION_STATUS_NEXT || "Next";
-      export const DONE = process.env.NOTION_STATUS_DONE || "Done";
-    }
+    export const Prop = {
+      NAME: process.env.NOTION_STATUS_PROP_NAME || "Status",
+      LAST_EDITED_AT:
+        process.env.NOTION_LAST_EDITED_AT_PROP_NAME || "LastEditedAt",
+    } as const;
+    export const Status = {
+      NEXT: "Next",
+      DONE: "Done",
+      UNCHOOSEBLE: "Unchooseble",
+    } as const;
   }
   export namespace Sentry {
     export const DSN = process.env.SENTRY_DSN;
