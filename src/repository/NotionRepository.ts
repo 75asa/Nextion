@@ -4,17 +4,17 @@ import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoint
 
 export class NotionRepository {
   #client;
-  #databaseID;
+  #DATABASE_ID;
   constructor(notionConfig: typeof Config.Notion) {
     const { KEY, DATABASE_ID } = notionConfig;
     if (!KEY || !DATABASE_ID) throw new Error("key/Database ID is not defined");
-    this.#databaseID = DATABASE_ID;
+    this.#DATABASE_ID = DATABASE_ID;
     this.#client = new Client({ auth: KEY });
   }
   async #crawl(startCursor?: string | null) {
     let res = null;
     const option: QueryDatabaseParameters = {
-      database_id: this.#databaseID,
+      database_id: this.#DATABASE_ID,
     };
 
     if (startCursor) option.start_cursor = startCursor;
