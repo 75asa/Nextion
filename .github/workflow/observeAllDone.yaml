@@ -1,0 +1,13 @@
+name: observeAllDOne
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  observeAllDOne:
+    name: observeAllDOne
+    runs-on: ubuntu-latest
+    steps:
+      - name: observeAllDOne
+        run: yarn start:observeAllDOne

@@ -25,6 +25,7 @@ export namespace Config {
       NEXT: "Next",
       DONE: "Done",
       UNCHOOSEBLE: "Unchooseble",
+      NO_STATUS: "NoStatus",
     } as const;
   }
 }

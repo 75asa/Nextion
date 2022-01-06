@@ -45,7 +45,7 @@ export class NotionRepository {
     );
   }
   async chooseNext(pageID: string, status: typeof Config.Notion.Status) {
-    const res = await this.#client.pages.update({
+    return await this.#client.pages.update({
       page_id: pageID,
       properties: {
         [Config.Notion.Prop.STATUS]: {
