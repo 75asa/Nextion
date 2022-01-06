@@ -1,6 +1,6 @@
-import { Config } from "../Config";
 import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
+import { Config } from "../Config";
 
 export class NotionRepository {
   #client;
@@ -48,7 +48,7 @@ export class NotionRepository {
     const res = await this.#client.pages.update({
       page_id: pageID,
       properties: {
-        [Config.Notion.Status.PROP_NAME]: {
+        [Config.Notion.Prop.NAME]: {
           select: {
             name: status.NEXT,
           },
