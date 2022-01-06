@@ -15,12 +15,17 @@ export namespace Config {
   }
   export namespace Notion {
     export const KEY = process.env.NOTION_KEY;
-    export namespace Status {
-      export const NEXT = process.env.NOTION_STATUS_NEXT || "Next";
-      export const DONE = process.env.NOTION_STATUS_DONE || "Done";
-    }
-  }
-  export namespace Sentry {
-    export const DSN = process.env.SENTRY_DSN;
+    export const DATABASE_ID = process.env.NOTION_DATABASE_ID;
+    export const Prop = {
+      NAME: process.env.NOTION_NAME_PROP || "Name",
+      STATUS: process.env.NOTION_STATUS_PROP || "Status",
+      LAST_EDITED_AT: process.env.NOTION_LAST_EDITED_AT_PROP || "LastEditedAt",
+    } as const;
+    export const Status = {
+      NEXT: "Next",
+      DONE: "Done",
+      UNCHOOSEBLE: "Unchooseble",
+      NO_STATUS: "NoStatus",
+    } as const;
   }
 }

@@ -1,0 +1,13 @@
+name: chooseNext
+
+on:
+  schedule:
+    - cron: '0 11 * * 1'
+
+jobs:
+  chooseNext:
+    name: chooseNext
+    runs-on: ubuntu-latest
+    steps:
+      - name: chooseNext
+        run: yarn start:chooseNext

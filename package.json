@@ -1,27 +1,22 @@
 {
   "name": "Nextion",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:tam-bourine/Nextion.git",
   "author": "75asa <75asa.me@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "build": "tsc -p .",
-    "start": "node dist/main.js",
-    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "lint-fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'"
+  "dependencies": {
+    "@notionhq/client": "^0.4.9",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
+    "@types/jest": "25.2.2",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-jest": "23.13.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-promise": "^5.2.0",
+    "jest": "26.0.1",
     "prettier": "^2.5.1",
+    "ts-jest": "26.0.0",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.2"
@@ -29,9 +24,17 @@
   "engines": {
     "node": ">=16.4.0"
   },
+  "license": "MIT",
+  "main": "index.js",
   "packageManager": "yarn",
-  "dependencies": {
-    "@notionhq/client": "^0.4.9",
-    "dotenv": "^10.0.0"
+  "repository": "git@github.com:tam-bourine/Nextion.git",
+  "scripts": {
+    "build": "tsc -p .",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
+    "lint-fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
+    "start": "node dist/main.js",
+    "start:chooseNext": "node dist/main.js",
+    "start:observeAllDOne": "node dist/main.js",
+    "start:syncIconCover": "node dist/main.js"
   }
 }
