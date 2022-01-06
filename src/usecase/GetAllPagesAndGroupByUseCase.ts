@@ -1,7 +1,7 @@
 import { Config } from "../Config";
 import { SelectProperty } from "../model/valueObject/SelectProperty";
 import { NotionRepository } from "../repository/NotionRepository";
-import { PostResult } from "../@types/notion-api-types.d";
+import { PostResult } from "../@types/notion-api-types";
 
 const { NEXT, DONE, UNCHOOSEBLE, NO_STATUS } = Config.Notion.Status;
 

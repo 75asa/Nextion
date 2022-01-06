@@ -1,5 +1,6 @@
 import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
+import { PropertyValueMap } from "../@types/notion-api-types";
 import { Config } from "../Config";
 
 export class NotionRepository {
@@ -44,16 +45,10 @@ export class NotionRepository {
         })
     );
   }
-  async chooseNext(pageID: string, status: typeof Config.Notion.Status) {
+  async updatePage(pageID: string, properties: PropertyValueMap) {
     return await this.#client.pages.update({
       page_id: pageID,
-      properties: {
-        [Config.Notion.Prop.STATUS]: {
-          select: {
-            name: status.NEXT,
-          },
-        },
-      },
+      properties,
     });
   }
 }
