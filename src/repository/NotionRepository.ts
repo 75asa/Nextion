@@ -48,7 +48,7 @@ export class NotionRepository {
     const res = await this.#client.pages.update({
       page_id: pageID,
       properties: {
-        [Config.Notion.Prop.NAME]: {
+        [Config.Notion.Prop.STATUS]: {
           select: {
             name: status.NEXT,
           },
