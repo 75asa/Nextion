@@ -27,7 +27,4 @@ export namespace Config {
       UNCHOOSEBLE: "Unchooseble",
     } as const;
   }
-  export namespace Sentry {
-    export const DSN = process.env.SENTRY_DSN;
-  }
 }
