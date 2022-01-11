@@ -1,9 +1,11 @@
-import { GetAllPagesUseCase } from "../useCase/GetAllPagesAndGroupByUseCase";
-import { UpdatePropertiesUseCase } from "../useCase/UpdatePropertiesUseCase";
+import {
+  GetAllPagesAndGroupByUseCase,
+  UpdatePropertiesUseCase,
+} from "../useCase";
 
 export class NextChooser {
   constructor(
-    private getAllPagesUseCase: GetAllPagesUseCase,
+    private getAllPagesUseCase: GetAllPagesAndGroupByUseCase,
     private updatePropertiesUseCase: UpdatePropertiesUseCase
   ) {}
   async run() {

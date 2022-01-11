@@ -13,7 +13,7 @@ type PageStatus =
 
 type GroupedByStatusPages = Record<PageStatus, PostResult[]>;
 
-export class GetAllPagesUseCase {
+export class GetAllPagesAndGroupByUseCase {
   #repository;
   constructor(repository: NotionRepository) {
     this.#repository = repository;
