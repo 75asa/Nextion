@@ -1,7 +1,7 @@
 import {
   GetAllPagesAndGroupByUseCase,
   UpdatePropertiesUseCase,
-} from "../useCase";
+} from "../useCases";
 
 export class NextChooser {
   constructor(
@@ -9,7 +9,7 @@ export class NextChooser {
     private updatePropertiesUseCase: UpdatePropertiesUseCase
   ) {}
   async run() {
-    const { Next, NoStatus, Done, Unchooseble } =
+    const { Next, NoStatus, Done, NoTarget } =
       await this.getAllPagesUseCase.invoke();
     if (!NoStatus.length) return;
     const { id, properties } =
