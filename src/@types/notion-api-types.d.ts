@@ -12,6 +12,9 @@ export type PostResult = QueryDatabaseResponse["results"][number];
 export type PropertyValueMap = PostResult["properties"];
 export type PropertyValue = PropertyValueMap[string];
 
+export type PageCover = PostResult["cover"];
+export type PageIcon = PostResult["icon"];
+
 export type PropertyValueType = PropertyValue["type"];
 
 export type ExtractedPropertyValue<TType extends PropertyValueType> = Extract<
