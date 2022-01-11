@@ -1,9 +1,14 @@
-import { PostResult, PropertyValueMap } from "../../@types/notion-api-types";
+import {
+  PostResult,
+  PropertyValueMap,
+  PropertyValueSelect,
+} from "../../@types/notion-api-types";
 import { SelectProperty } from "../valueObject/SelectProperty";
 import { Config } from "../../Config";
 import { LastEditedAt } from "../valueObject/LastEditedAt";
+import { isDetectiveType } from "../../utils";
 
-const { Status } = Config.Notion;
+const { Status, Prop } = Config.Notion;
 
 type PageStatus = typeof Status[keyof typeof Status];
 
@@ -41,7 +46,28 @@ export class PageEntity implements IPageEntity {
     return this.#properties;
   }
 
+  set properties(value) {
+    this.#properties = value;
+  }
+
   get lastEditedAt() {
     return this.#lastEditedAt;
+  }
+
+  updateProperties() {
+    const updateProperties = Object.keys(this.#properties).reduce(
+      (acc, cur) => {
+        const prop = this.#properties[cur];
+        if (cur !== Prop.STATUS) return acc;
+        prop.type;
+        if (!isDetectiveType<PropertyValueSelect>(prop)) return acc;
+        if (!prop.select) return acc;
+        prop.select.name = Status.NEXT.valueOf();
+        acc[Prop.STATUS] = prop;
+        return acc;
+      },
+      {} as PropertyValueMap
+    );
+    this.properties = updateProperties;
   }
 }

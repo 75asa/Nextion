@@ -11,8 +11,9 @@ export class NextChooser {
   async run() {
     const { NoStatus } = await this.getAllPagesAndGroupByUseCase.invoke();
     if (!NoStatus.length) return;
-    const { id, properties } =
-      NoStatus[Math.floor(Math.random() * NoStatus.length)];
+    const chosenNext = NoStatus[Math.floor(Math.random() * NoStatus.length)];
+    chosenNext.updateProperties();
+    const { id, properties } = chosenNext;
     return await this.updatePropertiesUseCase.invoke(id, properties);
   }
 }
