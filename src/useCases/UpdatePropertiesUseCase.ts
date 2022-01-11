@@ -1,16 +1,12 @@
 import { Config } from "../Config";
 import { NotionRepository } from "../repository/NotionRepository";
-import { PostResult, PropertyValueMap } from "../@types/notion-api-types";
+import {
+  PropertyValueMap,
+  PropertyValueSelect,
+} from "../@types/notion-api-types";
+import { isDetectiveType } from "../utils";
 
-const { NEXT, DONE, NO_TARGET, NO_STATUS } = Config.Notion.Status;
-
-type PageStatus =
-  | typeof NEXT
-  | typeof DONE
-  | typeof NO_TARGET
-  | typeof NO_STATUS;
-
-type GroupedByStatusPages = Record<PageStatus, PostResult[]>;
+const { Prop, Status } = Config.Notion;
 
 export class UpdatePropertiesUseCase {
   #repository;
@@ -18,6 +14,16 @@ export class UpdatePropertiesUseCase {
     this.#repository = repository;
   }
   async invoke(pageID: string, properties: PropertyValueMap) {
-    this.#repository.updatePage(pageID, properties);
+    const updateProperties = Object.keys(properties).reduce((acc, cur) => {
+      const prop = properties[cur];
+      if (cur !== Prop.STATUS) return acc;
+      prop.type;
+      if (!isDetectiveType<PropertyValueSelect>(prop)) return acc;
+      if (!prop.select) return acc;
+      prop.select.name = Status.NEXT.valueOf();
+      acc[Prop.STATUS] = prop;
+      return acc;
+    }, {} as PropertyValueMap);
+    return await this.#repository.updatePage(pageID, updateProperties);
   }
 }
