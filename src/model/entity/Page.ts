@@ -1,4 +1,4 @@
-import { PostResult } from "../../@types/notion-api-types";
+import { PostResult, PropertyValueMap } from "../../@types/notion-api-types";
 import { SelectProperty } from "../valueObject/SelectProperty";
 import { Config } from "../../Config";
 import { LastEditedAt } from "../valueObject/LastEditedAt";
@@ -10,7 +10,7 @@ type PageStatus = typeof Status[keyof typeof Status];
 export interface IPageEntity {
   id: string;
   status: PageStatus;
-  properties: unknown;
+  properties: PropertyValueMap;
   lastEditedAt: Date;
 }
 

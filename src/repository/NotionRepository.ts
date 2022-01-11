@@ -2,6 +2,7 @@ import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
 import { PropertyValueMap } from "../@types/notion-api-types";
 import { Config } from "../Config";
+import { PageEntity } from "../model/entity/Page";
 
 export class NotionRepository {
   #client;
@@ -41,8 +42,11 @@ export class NotionRepository {
           return page.archived;
         })
         .map(async (page) => {
-          return page;
+          return new PageEntity(page);
         })
+        .filter(
+          (page): page is Exclude<typeof page, undefined> => page !== undefined
+        )
     );
   }
   async updatePage(pageID: string, properties: PropertyValueMap) {

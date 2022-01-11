@@ -30,7 +30,6 @@
   "main": "index.js",
   "repository": "git@github.com:tam-bourine/Nextion.git",
   "scripts": {
-    "preinstall": "npx only-allow yarn",
     "build": "tsc -p .",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
     "lint-fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",

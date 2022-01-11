@@ -5,16 +5,16 @@ import {
 
 export class NextChooser {
   constructor(
-    private getAllPagesUseCase: GetAllPagesAndGroupByUseCase,
+    private getAllPagesAndGroupByUseCase: GetAllPagesAndGroupByUseCase,
     private updatePropertiesUseCase: UpdatePropertiesUseCase
   ) {}
   async run() {
     const { Next, NoStatus, Done, NoTarget } =
-      await this.getAllPagesUseCase.invoke();
+      await this.getAllPagesAndGroupByUseCase.invoke();
     if (!NoStatus.length) return;
     const { id, properties } =
       NoStatus[Math.floor(Math.random() * NoStatus.length)];
     // TODO: properties[Config.Notion.Prop.STATUS] = NEXT;
-    const result = await this.updatePropertiesUseCase.invoke(id, properties);
+    return await this.updatePropertiesUseCase.invoke(id, properties);
   }
 }

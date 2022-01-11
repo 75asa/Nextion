@@ -1,7 +1,6 @@
 import { Config } from "../Config";
-import { SelectProperty } from "../model/valueObject/SelectProperty";
 import { NotionRepository } from "../repository/NotionRepository";
-import { PostResult } from "../@types/notion-api-types";
+import { PageEntity } from "../model/entity/Page";
 
 const { NEXT, DONE, NO_TARGET, NO_STATUS } = Config.Notion.Status;
 
@@ -11,7 +10,7 @@ type PageStatus =
   | typeof NO_TARGET
   | typeof NO_STATUS;
 
-type GroupedByStatusPages = Record<PageStatus, PostResult[]>;
+type GroupedByStatusPages = Record<PageStatus, PageEntity[]>;
 
 export class GetAllPagesAndGroupByUseCase {
   #repository;
@@ -22,9 +21,7 @@ export class GetAllPagesAndGroupByUseCase {
     const pages = await this.#repository.getPages();
     return pages.reduce(
       (acc, cur) => {
-        const status = new SelectProperty(
-          cur.properties[Config.Notion.Prop.STATUS]
-        ).name;
+        const { status } = cur;
 
         switch (status) {
           case NEXT: {
