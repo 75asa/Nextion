@@ -2,12 +2,12 @@ import { Config } from "../Config";
 import { NotionRepository } from "../repository/NotionRepository";
 import { PostResult, PropertyValueMap } from "../@types/notion-api-types";
 
-const { NEXT, DONE, UNCHOOSEBLE, NO_STATUS } = Config.Notion.Status;
+const { NEXT, DONE, NO_TARGET, NO_STATUS } = Config.Notion.Status;
 
 type PageStatus =
   | typeof NEXT
   | typeof DONE
-  | typeof UNCHOOSEBLE
+  | typeof NO_TARGET
   | typeof NO_STATUS;
 
 type GroupedByStatusPages = Record<PageStatus, PostResult[]>;

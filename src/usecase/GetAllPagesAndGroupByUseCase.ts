@@ -3,12 +3,12 @@ import { SelectProperty } from "../model/valueObject/SelectProperty";
 import { NotionRepository } from "../repository/NotionRepository";
 import { PostResult } from "../@types/notion-api-types";
 
-const { NEXT, DONE, UNCHOOSEBLE, NO_STATUS } = Config.Notion.Status;
+const { NEXT, DONE, NO_TARGET, NO_STATUS } = Config.Notion.Status;
 
 type PageStatus =
   | typeof NEXT
   | typeof DONE
-  | typeof UNCHOOSEBLE
+  | typeof NO_TARGET
   | typeof NO_STATUS;
 
 type GroupedByStatusPages = Record<PageStatus, PostResult[]>;
@@ -35,8 +35,8 @@ export class GetAllPagesAndGroupByUseCase {
             acc.Done.push(cur);
             break;
           }
-          case UNCHOOSEBLE: {
-            acc.Unchooseble.push(cur);
+          case NO_TARGET: {
+            acc.NoTarget.push(cur);
             break;
           }
           case undefined: {
@@ -52,7 +52,7 @@ export class GetAllPagesAndGroupByUseCase {
       {
         Next: [],
         Done: [],
-        Unchooseble: [],
+        NoTarget: [],
         NoStatus: [],
       } as GroupedByStatusPages
     );

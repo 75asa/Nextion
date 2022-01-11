@@ -24,7 +24,7 @@ export namespace Config {
     export const Status = {
       NEXT: "Next",
       DONE: "Done",
-      UNCHOOSEBLE: "Unchooseble",
+      NO_TARGET: "NoTarget",
       NO_STATUS: "NoStatus",
     } as const;
   }
