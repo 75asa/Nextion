@@ -21,7 +21,9 @@ export class GetAllPagesAndGroupByUseCase {
     const pages = await this.#repository.getPages();
     return pages.reduce(
       (acc, cur) => {
-        const { status } = cur;
+        const { status, id, properties } = cur;
+
+        // console.log({ status, id, properties });
 
         switch (status) {
           case NEXT: {
@@ -36,7 +38,7 @@ export class GetAllPagesAndGroupByUseCase {
             acc.NoTarget.push(cur);
             break;
           }
-          case undefined: {
+          case NO_STATUS: {
             acc.NoStatus.push(cur);
             break;
           }

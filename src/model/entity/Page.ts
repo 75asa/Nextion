@@ -6,15 +6,15 @@ import {
 import { SelectProperty } from "../valueObject/SelectProperty";
 import { Config } from "../../Config";
 import { LastEditedAt } from "../valueObject/LastEditedAt";
-import { isDetectiveType } from "../../utils";
+import { isDetectiveDatabasePropertyType } from "../../utils";
 
 const { Status, Prop } = Config.Notion;
 
-type PageStatus = typeof Status[keyof typeof Status];
+// type PageStatus = typeof Status[keyof typeof Status];
 
 export interface IPageEntity {
   id: string;
-  status: PageStatus;
+  status: SelectProperty;
   properties: PropertyValueMap;
   lastEditedAt: Date;
 }
@@ -26,10 +26,8 @@ export class PageEntity implements IPageEntity {
   #lastEditedAt;
   constructor(args: PostResult) {
     const { id, properties, last_edited_time } = args;
-    const status = new SelectProperty(properties[Config.Notion.Prop.STATUS])
-      .name;
     this.#id = id;
-    this.#status = status;
+    this.#status = new SelectProperty(properties[Config.Notion.Prop.STATUS]);
     this.#properties = properties;
     this.#lastEditedAt = new LastEditedAt(last_edited_time).date;
   }
@@ -54,20 +52,32 @@ export class PageEntity implements IPageEntity {
     return this.#lastEditedAt;
   }
 
-  updateProperties() {
+  updateProperties(status: SelectProperty) {
     const updateProperties = Object.keys(this.#properties).reduce(
       (acc, cur) => {
         const prop = this.#properties[cur];
         if (cur !== Prop.STATUS) return acc;
-        prop.type;
-        if (!isDetectiveType<PropertyValueSelect>(prop)) return acc;
-        if (!prop.select) return acc;
-        prop.select.name = Status.NEXT.valueOf();
+        if (!isDetectiveDatabasePropertyType<PropertyValueSelect>(prop))
+          return acc;
+        console.log({ acc, cur, prop });
+        if (!prop.select) {
+          console.log({ acc, cur, prop });
+          acc[Prop.STATUS] = {
+            select: {
+              id: status.id,
+              name: status,
+              color: "default",
+            },
+          };
+          return acc;
+        }
+        prop.select.name = status;
         acc[Prop.STATUS] = prop;
         return acc;
       },
       {} as PropertyValueMap
     );
+    console.log({ updateProperties });
     this.properties = updateProperties;
   }
 }
