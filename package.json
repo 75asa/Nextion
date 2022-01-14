@@ -34,7 +34,7 @@
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
     "lint-fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
     "test": "jest",
-    "start": "node dist/main.js",
+    "start": "node dist/src/main.js",
     "start:chooseNext": "node dist/main.js",
     "start:observeAllDOne": "node dist/main.js",
     "start:syncIconCover": "node dist/main.js"

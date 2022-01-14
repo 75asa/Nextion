@@ -2,10 +2,54 @@ import type {
   ListBlockChildrenResponse,
   SearchResponse,
   QueryDatabaseResponse,
+  GetDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 
 /** Database */
 export type SearchResult = SearchResponse["results"][number];
+
+export type DatabasePropertyValueMap = GetDatabaseResponse["properties"];
+export type DatabasePropertyValue = DatabasePropertyValueMap[string];
+export type DatabasePropertyValueType = DatabasePropertyValue["type"];
+
+export type ExtractedDatabasePropertyValue<
+  TType extends DatabasePropertyValueType
+> = Extract<DatabasePropertyValue, { type: TType }>;
+
+export type DatabasePropertyValueTitle =
+  ExtractedDatabasePropertyValue<"title">;
+export type DatabasePropertyValueRichText =
+  ExtractedDatabasePropertyValue<"rich_text">;
+export type DatabasePropertyValueNumber =
+  ExtractedDatabasePropertyValue<"number">;
+export type DatabasePropertyValueUrl = ExtractedDatabasePropertyValue<"url">;
+export type DatabasePropertyValueSelect =
+  ExtractedDatabasePropertyValue<"select">;
+export type DatabasePropertyValueMultiSelect =
+  ExtractedDatabasePropertyValue<"multi_select">;
+export type DatabasePropertyValuePeople =
+  ExtractedDatabasePropertyValue<"people">;
+export type DatabasePropertyValueEmail =
+  ExtractedDatabasePropertyValue<"email">;
+export type DatabasePropertyValuePhoneNumber =
+  ExtractedDatabasePropertyValue<"phone_number">;
+export type DatabasePropertyValueDate = ExtractedDatabasePropertyValue<"date">;
+export type DatabasePropertyValueFiles =
+  ExtractedDatabasePropertyValue<"files">;
+export type DatabasePropertyValueFormula =
+  ExtractedDatabasePropertyValue<"formula">;
+export type DatabasePropertyValueRelation =
+  ExtractedDatabasePropertyValue<"relation">;
+export type DatabasePropertyValueRollup =
+  ExtractedDatabasePropertyValue<"rollup">;
+export type DatabasePropertyValueCreatedTime =
+  ExtractedDatabasePropertyValue<"created_time">;
+export type DatabasePropertyValueCreatedBy =
+  ExtractedDatabasePropertyValue<"created_by">;
+export type DatabasePropertyValueEditedTime =
+  ExtractedDatabasePropertyValue<"last_edited_time">;
+export type PropertyValueEditedBy =
+  ExtractedDatabasePropertyValue<"last_edited_by">;
 
 /** Property **/
 export type PostResult = QueryDatabaseResponse["results"][number];
@@ -21,6 +65,18 @@ export type ExtractedPropertyValue<TType extends PropertyValueType> = Extract<
   PropertyValue,
   { type: TType }
 >;
+
+export type PropertyColor =
+  | "default"
+  | "gray"
+  | "brown"
+  | "orange"
+  | "yellow"
+  | "green"
+  | "blue"
+  | "purple"
+  | "pink"
+  | "red";
 
 export type PropertyValueTitle = ExtractedPropertyValue<"title">;
 export type PropertyValueRichText = ExtractedPropertyValue<"rich_text">;
