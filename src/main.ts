@@ -1,6 +1,6 @@
 import { parse } from "ts-command-line-args";
 import { Config } from "./Config";
-import { NextChooser } from "./controller/NextChooser";
+import { NextChooser, DoneWatcher } from "./controller";
 import { NotionRepository } from "./repository/NotionRepository";
 import {
   GetAllPagesAndGroupByUseCase,
@@ -28,6 +28,11 @@ const main = async () => {
       break;
     }
     case Config.Mode.WATCH_DONE: {
+      const handler = await new DoneWatcher(
+        new GetAllPagesAndGroupByUseCase(notionRepo),
+        new UpdatePropertiesUseCase(notionRepo)
+      ).run();
+      console.log({ handler });
       break;
     }
     case Config.Mode.FETCH_ICON: {
