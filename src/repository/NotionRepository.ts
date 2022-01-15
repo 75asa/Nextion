@@ -1,22 +1,14 @@
 import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
-import {
-  PropertyValueMap,
-  PropertyValueSelect,
-} from "../@types/notion-api-types";
+import { Page } from "../@types/notion-api-types";
 import { Config } from "../Config";
 import { PageEntity } from "../model/entity/Page";
 import { StatusProperty } from "../model/entity/StatusProperty";
-import { isDetectiveDatabasePropertyType } from "../utils";
-
-const { Status, Prop } = Config.Notion;
-const PageStatusValues = Object.values(Status)[0];
-
 export class NotionRepository {
   #client;
   #DATABASE_ID;
+
   constructor(notionConfig: Partial<typeof Config.Notion>) {
-    // constructor(notionConfig: Omit<typeof Config.Notion, "Prop">) {
     const { KEY, DATABASE_ID } = notionConfig;
     if (!KEY || !DATABASE_ID) throw new Error("key/Database ID is not defined");
     this.#DATABASE_ID = DATABASE_ID;
@@ -26,10 +18,6 @@ export class NotionRepository {
   async getStatusProperties() {
     const { properties } = await this.#client.databases.retrieve({
       database_id: this.#DATABASE_ID,
-    });
-    const statusProperty = Object.keys(properties).find((item) => {
-      if (Prop.STATUS !== item) return false;
-      if (!isDetectiveDatabasePropertyType<PropertyValueSelect>()) return acc;
     });
     return new StatusProperty(properties);
   }
@@ -51,6 +39,7 @@ export class NotionRepository {
     }
     return res;
   }
+
   async getPages() {
     const pages = [];
     const { results, next_cursor, has_more } = await this.#crawl();
@@ -70,10 +59,11 @@ export class NotionRepository {
         )
     );
   }
-  async updatePage(pageID: string, properties: PropertyValueMap) {
+
+  async updatePage(page: PageEntity) {
     return await this.#client.pages.update({
-      page_id: pageID,
-      properties,
+      page_id: page.id,
+      properties: page.properties,
     });
   }
 }

@@ -1,33 +1,35 @@
-import {
-  PostResult,
-  PropertyValueMap,
-  PropertyValueSelect,
-} from "../../@types/notion-api-types";
+import { Page, PropertyColor } from "../../@types/notion-api-types";
 import { SelectProperty } from "../valueObject/SelectProperty";
 import { Config } from "../../Config";
 import { LastEditedAt } from "../valueObject/LastEditedAt";
-import { isDetectiveDatabasePropertyType } from "../../utils";
+import { PageCover } from "../valueObject/PageCover";
 
-const { Status, Prop } = Config.Notion;
-
-// type PageStatus = typeof Status[keyof typeof Status];
+const PageStatusValues = Object.values(Config.Notion.Status)[0];
 
 export interface IPageEntity {
   id: string;
-  status: SelectProperty;
-  properties: PropertyValueMap;
+  statusProperty: SelectProperty;
+  cover: string | null;
+  properties: Page.Property.PropertyValueMap;
   lastEditedAt: Date;
 }
+
+type UpdateStatusInput = {
+  id: string;
+  color: PropertyColor;
+} | null;
 
 export class PageEntity implements IPageEntity {
   #id;
   #status;
   #properties;
+  #cover: string | null;
   #lastEditedAt;
-  constructor(args: PostResult) {
-    const { id, properties, last_edited_time } = args;
+  constructor(args: Page.RawPage) {
+    const { id, properties, last_edited_time, cover } = args;
     this.#id = id;
     this.#status = new SelectProperty(properties[Config.Notion.Prop.STATUS]);
+    this.#cover = new PageCover(cover).coverURL;
     this.#properties = properties;
     this.#lastEditedAt = new LastEditedAt(last_edited_time).date;
   }
@@ -36,15 +38,19 @@ export class PageEntity implements IPageEntity {
     return this.#id;
   }
 
-  get status() {
+  get statusProperty() {
     return this.#status;
+  }
+
+  get cover() {
+    return this.#cover;
   }
 
   get properties() {
     return this.#properties;
   }
 
-  set properties(value) {
+  set properties(value: Page.Property.PropertyValueMap) {
     this.#properties = value;
   }
 
@@ -52,32 +58,32 @@ export class PageEntity implements IPageEntity {
     return this.#lastEditedAt;
   }
 
-  updateProperties(status: SelectProperty) {
+  updateStatus(
+    inputStatus: UpdateStatusInput,
+    pageStatus: typeof PageStatusValues
+  ) {
     const updateProperties = Object.keys(this.#properties).reduce(
-      (acc, cur) => {
-        const prop = this.#properties[cur];
-        if (cur !== Prop.STATUS) return acc;
-        if (!isDetectiveDatabasePropertyType<PropertyValueSelect>(prop))
-          return acc;
-        console.log({ acc, cur, prop });
-        if (!prop.select) {
-          console.log({ acc, cur, prop });
-          acc[Prop.STATUS] = {
-            select: {
-              id: status.id,
-              name: status,
-              color: "default",
-            },
-          };
+      (acc, key) => {
+        const propValue = this.#properties[key];
+        if (!this.#status.isStatusProperty(propValue)) {
+          acc[key] = propValue;
           return acc;
         }
-        prop.select.name = status;
-        acc[Prop.STATUS] = prop;
+        if (pageStatus === "NoStatus") {
+          propValue.select = null;
+          acc[key] = propValue;
+          return acc;
+        }
+        propValue.select = {
+          name: pageStatus,
+          id: inputStatus!.id,
+          color: inputStatus!.color,
+        };
+        acc[key] = propValue;
         return acc;
       },
-      {} as PropertyValueMap
+      {} as Page.Property.PropertyValueMap
     );
-    console.log({ updateProperties });
     this.properties = updateProperties;
   }
 }
