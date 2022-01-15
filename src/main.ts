@@ -1,8 +1,9 @@
 import { parse } from "ts-command-line-args";
 import { Config } from "./Config";
-import { NextChooser, DoneWatcher } from "./controller";
+import { NextChooser, DoneWatcher, IconFetcher } from "./controller";
 import { NotionRepository } from "./repository/NotionRepository";
 import {
+  FetchAssigneeUserIconUseCase,
   GetAllPagesAndGroupByUseCase,
   UpdatePropertiesUseCase,
 } from "./useCases";
@@ -36,6 +37,10 @@ const main = async () => {
       break;
     }
     case Config.Mode.FETCH_ICON: {
+      const handler = await new IconFetcher(
+        new FetchAssigneeUserIconUseCase(notionRepo)
+      ).run();
+      console.log({ handler });
       break;
     }
     default:

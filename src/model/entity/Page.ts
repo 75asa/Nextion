@@ -1,15 +1,15 @@
 import { Page, PropertyColor } from "../../@types/notion-api-types";
 import { SelectProperty } from "../valueObject/SelectProperty";
 import { Config } from "../../Config";
-import { LastEditedAt } from "../valueObject/LastEditedAt";
 import { PageCover } from "../valueObject/PageCover";
+import { AssignProperty } from "../valueObject/AssignProperty";
 
 export interface IPageEntity {
   id: string;
   statusProperty: SelectProperty;
-  cover: string | null;
+  assignProperty: AssignProperty;
+  cover: PageCover;
   properties: Page.Property.PropertyValueMap;
-  lastEditedAt: Date;
 }
 
 type UpdateStatusInput = {
@@ -21,15 +21,15 @@ export class PageEntity implements IPageEntity {
   #id;
   #status;
   #properties;
-  #cover: string | null;
-  #lastEditedAt;
+  #assign;
+  #cover;
   constructor(args: Page.RawPage) {
-    const { id, properties, last_edited_time, cover } = args;
+    const { id, properties, cover } = args;
     this.#id = id;
     this.#status = new SelectProperty(properties[Config.Notion.Prop.STATUS]);
-    this.#cover = new PageCover(cover).coverURL;
+    this.#cover = new PageCover(cover);
+    this.#assign = new AssignProperty(properties[Config.Notion.Prop.ASSIGN]);
     this.#properties = properties;
-    this.#lastEditedAt = new LastEditedAt(last_edited_time).date;
   }
 
   get id() {
@@ -40,10 +40,6 @@ export class PageEntity implements IPageEntity {
     return this.#status;
   }
 
-  get cover() {
-    return this.#cover;
-  }
-
   get properties() {
     return this.#properties;
   }
@@ -52,8 +48,8 @@ export class PageEntity implements IPageEntity {
     this.#properties = value;
   }
 
-  get lastEditedAt() {
-    return this.#lastEditedAt;
+  get assignProperty() {
+    return this.#assign;
   }
 
   updateStatus(
@@ -86,5 +82,14 @@ export class PageEntity implements IPageEntity {
       {} as Page.Property.PropertyValueMap
     );
     this.properties = updateProperties;
+  }
+
+  setAssignIconToPageCover() {
+    if (!this.#assign.avatarURL) return;
+    this.#cover.coverURL = this.#assign.avatarURL;
+  }
+
+  get cover() {
+    return this.#cover;
   }
 }

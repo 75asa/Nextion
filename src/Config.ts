@@ -27,7 +27,7 @@ export namespace Config {
     export const Prop = {
       NAME: process.env.NOTION_NAME_PROP || "Name",
       STATUS: process.env.NOTION_STATUS_PROP || "Status",
-      LAST_EDITED_AT: process.env.NOTION_LAST_EDITED_AT_PROP || "LastEditedAt",
+      ASSIGN: process.env.NOTION_ASSIGN_PROP || "Assign",
     } as const;
     export const Status = {
       NEXT: "Next",
