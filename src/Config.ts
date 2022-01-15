@@ -9,6 +9,14 @@ if (config) {
 }
 
 export namespace Config {
+  export const Mode = {
+    CHOOSE_NEXT: "chooseNext",
+    WATCH_DONE: "watchDone",
+    FETCH_ICON: "fetchIcon",
+  } as const;
+  export interface CLI_ARGS {
+    mode: string;
+  }
   export namespace Slack {
     export const BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
     export const CHANNEL_NAME = process.env.SLACK_CHANNEL_NAME;
@@ -27,5 +35,6 @@ export namespace Config {
       NO_TARGET: "NoTarget",
       NO_STATUS: "NoStatus",
     } as const;
+    export const PageStatusValues = Object.values(Config.Notion.Status)[0];
   }
 }

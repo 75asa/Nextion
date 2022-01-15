@@ -28,8 +28,6 @@ export class SelectProperty {
 
     const { name, color, id } = selectValue;
 
-    console.log({ name, color, PageStatusValues });
-
     if (!Object.values(PageStatus).includes(name as typeof PageStatusValues)) {
       throw new Error(
         `option name is not PageStatusValues. name: ${name}, PageStatusValues: ${PageStatusValues}`
@@ -75,15 +73,5 @@ export class SelectProperty {
 
   isStatusProperty(input: Page.Property.PropertyValue): input is SelectType {
     return isDetectivePagePropertyType<SelectType>(input);
-    // if (!isDetectivePagePropertyType<Page.Property.Values.Select>(input))
-    //   return false;
-    // console.log({ input });
-    // return (
-    //   input.select === null ||
-    //   (!Object.values(PageStatus).includes(
-    //     input.select.name as typeof PageStatusValues
-    //   ) &&
-    //     input.select.name !== PageStatus.NO_STATUS)
-    // );
   }
 }

@@ -4,8 +4,6 @@ import { Config } from "../../Config";
 import { LastEditedAt } from "../valueObject/LastEditedAt";
 import { PageCover } from "../valueObject/PageCover";
 
-const PageStatusValues = Object.values(Config.Notion.Status)[0];
-
 export interface IPageEntity {
   id: string;
   statusProperty: SelectProperty;
@@ -60,7 +58,7 @@ export class PageEntity implements IPageEntity {
 
   updateStatus(
     inputStatus: UpdateStatusInput,
-    pageStatus: typeof PageStatusValues
+    pageStatus: typeof Config.Notion.PageStatusValues
   ) {
     const updateProperties = Object.keys(this.#properties).reduce(
       (acc, key) => {

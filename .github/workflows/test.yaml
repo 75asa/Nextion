@@ -1,13 +1,11 @@
-name: lint
+name: test
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,6 +18,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn
-      - run: yarn build
-      - run: yarn test
+      - run: |
+          yarn
+          yarn build
+          yarn test
