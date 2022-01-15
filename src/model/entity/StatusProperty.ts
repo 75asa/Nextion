@@ -2,8 +2,7 @@ import { Database as DB, PropertyColor } from "../../@types/notion-api-types";
 import { Config } from "../../Config";
 import { isDetectiveDatabasePropertyType } from "../../utils";
 
-const { Status, Prop } = Config.Notion;
-const PageStatusValues = Object.values(Status)[0];
+const { Prop, PageStatusValues } = Config.Notion;
 
 type StatusPropertyMap = {
   [key in typeof PageStatusValues]: {
