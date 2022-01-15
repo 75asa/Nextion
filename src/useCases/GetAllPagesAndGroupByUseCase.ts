@@ -1,19 +1,18 @@
 import { Config } from "../Config";
-import { SelectProperty } from "../model/valueObject/SelectProperty";
 import { NotionRepository } from "../repository/NotionRepository";
-import { PostResult } from "../@types/notion-api-types.d";
+import { PageEntity } from "../model/entity/Page";
 
-const { NEXT, DONE, UNCHOOSEBLE, NO_STATUS } = Config.Notion.Status;
+const { NEXT, DONE, NO_TARGET, NO_STATUS } = Config.Notion.Status;
 
 type PageStatus =
   | typeof NEXT
   | typeof DONE
-  | typeof UNCHOOSEBLE
+  | typeof NO_TARGET
   | typeof NO_STATUS;
 
-type GroupedByStatusPages = Record<PageStatus, PostResult[]>;
+type GroupedByStatusPages = Record<PageStatus, PageEntity[]>;
 
-export class GetAllPagesUseCase {
+export class GetAllPagesAndGroupByUseCase {
   #repository;
   constructor(repository: NotionRepository) {
     this.#repository = repository;
@@ -22,11 +21,9 @@ export class GetAllPagesUseCase {
     const pages = await this.#repository.getPages();
     return pages.reduce(
       (acc, cur) => {
-        const status = new SelectProperty(
-          cur.properties[Config.Notion.Prop.STATUS]
-        ).name;
+        const { statusProperty: status } = cur;
 
-        switch (status) {
+        switch (status.status) {
           case NEXT: {
             acc.Next.push(cur);
             break;
@@ -35,11 +32,11 @@ export class GetAllPagesUseCase {
             acc.Done.push(cur);
             break;
           }
-          case UNCHOOSEBLE: {
-            acc.Unchooseble.push(cur);
+          case NO_TARGET: {
+            acc.NoTarget.push(cur);
             break;
           }
-          case undefined: {
+          case NO_STATUS: {
             acc.NoStatus.push(cur);
             break;
           }
@@ -52,7 +49,7 @@ export class GetAllPagesUseCase {
       {
         Next: [],
         Done: [],
-        Unchooseble: [],
+        NoTarget: [],
         NoStatus: [],
       } as GroupedByStatusPages
     );

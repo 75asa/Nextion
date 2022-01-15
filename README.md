@@ -24,7 +24,7 @@ Pick a page at random in Notion.
 1. cron で定期実行
 2. データベースから全ページ取得
 3. ユースケースで、ステータスごとにグループバイ
-4. Status が全て DONE もしくは UNCHOOSABLE になっているかチェック
+4. Status が全て DONE もしくは NoStatus になっているかチェック
 5. なっていたら DONE のページのステータスを消す
 
 # FYI

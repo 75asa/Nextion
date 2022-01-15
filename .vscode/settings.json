@@ -20,5 +20,8 @@
         "titleBar.inactiveBackground": "#4d439899",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#4d4398"
+    "peacock.color": "#4d4398",
+    "cSpell.words": [
+        "Nextion"
+    ]
 }
