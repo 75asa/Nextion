@@ -1,6 +1,5 @@
 import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
-import { Page } from "../@types/notion-api-types";
 import { Config } from "../Config";
 import { PageEntity } from "../model/entity/Page";
 import { StatusProperty } from "../model/entity/StatusProperty";
@@ -61,9 +60,17 @@ export class NotionRepository {
   }
 
   async updatePage(page: PageEntity) {
-    return await this.#client.pages.update({
-      page_id: page.id,
-      properties: page.properties,
-    });
+    try {
+      return await this.#client.pages.update({
+        page_id: page.id,
+        properties: page.properties,
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        console.dir(page.properties, { depth: null });
+        console.error(`----- ${e.message} -----`);
+      }
+      throw new Error("Failed to update page");
+    }
   }
 }

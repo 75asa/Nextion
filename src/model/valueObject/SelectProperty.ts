@@ -5,7 +5,7 @@ import { isDetectivePagePropertyType } from "../../utils";
 const PageStatus = Config.Notion.Status;
 const PageStatusValues = Object.values(PageStatus)[0];
 
-type ExistStatusValue = Exclude<typeof PageStatusValues, "NoStatus">;
+type SelectType = Page.Property.Values.Select;
 
 export class SelectProperty {
   #status: typeof PageStatusValues;
@@ -28,8 +28,12 @@ export class SelectProperty {
 
     const { name, color, id } = selectValue;
 
-    if (name !== PageStatusValues) {
-      throw new Error("option name is not PageStatusValues");
+    console.log({ name, color, PageStatusValues });
+
+    if (!Object.values(PageStatus).includes(name as typeof PageStatusValues)) {
+      throw new Error(
+        `option name is not PageStatusValues. name: ${name}, PageStatusValues: ${PageStatusValues}`
+      );
     }
 
     this.#status = name as typeof PageStatusValues;
@@ -69,15 +73,17 @@ export class SelectProperty {
     return this.#color;
   }
 
-  isStatusProperty(
-    input: Page.Property.PropertyValue
-  ): input is Page.Property.Values.Select {
-    if (!isDetectivePagePropertyType<Page.Property.Values.Select>(input))
-      return false;
-    return (
-      input.select === null ||
-      (input.select.name === PageStatusValues &&
-        input.select.name !== PageStatus.NO_STATUS)
-    );
+  isStatusProperty(input: Page.Property.PropertyValue): input is SelectType {
+    return isDetectivePagePropertyType<SelectType>(input);
+    // if (!isDetectivePagePropertyType<Page.Property.Values.Select>(input))
+    //   return false;
+    // console.log({ input });
+    // return (
+    //   input.select === null ||
+    //   (!Object.values(PageStatus).includes(
+    //     input.select.name as typeof PageStatusValues
+    //   ) &&
+    //     input.select.name !== PageStatus.NO_STATUS)
+    // );
   }
 }

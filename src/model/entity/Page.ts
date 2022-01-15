@@ -65,7 +65,10 @@ export class PageEntity implements IPageEntity {
     const updateProperties = Object.keys(this.#properties).reduce(
       (acc, key) => {
         const propValue = this.#properties[key];
-        if (!this.#status.isStatusProperty(propValue)) {
+        if (
+          !this.#status.isStatusProperty(propValue) ||
+          key !== Config.Notion.Prop.STATUS
+        ) {
           acc[key] = propValue;
           return acc;
         }
