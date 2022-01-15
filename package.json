@@ -36,9 +36,9 @@
     "lint-fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
     "test": "jest",
     "start": "node dist/src/main.js",
-    "start:chooseNext": "node dist/main.js",
-    "start:observeAllDOne": "node dist/main.js",
-    "start:syncIconCover": "node dist/main.js"
+    "start:chooseNext": "node dist/src/main.js --mode=chooseNext",
+    "start:watchDone": "node dist/src/main.js --mode=watchDone",
+    "start:fetchIcon": "node dist/src/main.js --mode=fetchIcon"
   },
   "jest": {
     "moduleFileExtensions": [

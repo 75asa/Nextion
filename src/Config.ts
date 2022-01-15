@@ -10,9 +10,9 @@ if (config) {
 
 export namespace Config {
   export const Mode = {
-    NEXT_CHOOSE: "NextChoose",
-    WATCH_DONE: "WatchDone",
-    FETCH_ICON: "FetchIcon",
+    CHOOSE_NEXT: "chooseNext",
+    WATCH_DONE: "watchDone",
+    FETCH_ICON: "fetchIcon",
   } as const;
   export interface CLI_ARGS {
     mode: string;

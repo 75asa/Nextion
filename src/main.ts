@@ -19,7 +19,7 @@ const main = async () => {
   });
 
   switch (args.mode) {
-    case Config.Mode.NEXT_CHOOSE: {
+    case Config.Mode.CHOOSE_NEXT: {
       const handler = await new NextChooser(
         new GetAllPagesAndGroupByUseCase(notionRepo),
         new UpdatePropertiesUseCase(notionRepo)
