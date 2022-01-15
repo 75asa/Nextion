@@ -61,9 +61,11 @@ export class NotionRepository {
 
   async updatePage(page: PageEntity) {
     try {
+      const { id, cover, properties } = page;
       return await this.#client.pages.update({
-        page_id: page.id,
-        properties: page.properties,
+        page_id: id,
+        cover: cover.getCoverURL(),
+        properties: properties,
       });
     } catch (e) {
       if (e instanceof Error) {
