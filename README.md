@@ -1,28 +1,30 @@
 # Nextion
 
-This is a randomly choosing next page for the board view of Notion Database.
+This is a Notion Integration to choose randomly next page for the board view of Notion Database.
 
 [![Nextion-logo](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)
 
+[README: JP 🇯🇵 ](https://github.com/tam-bourine/Nextion/blob/main/docs/README_JP.md)
 # How to use
 
 1. click [here](https://developers.notion.com/) to get a Notion API key.
 1. set environment value to each use case. below section is for local & GitHub Actions.
 1. confirm your Notion Database property setting. by default, it's defined constant values on `src/Config.ts`. if you wanna change key or value, you can change it.
-1. confirm cron job setting. by default, it's defined constant expression on `github/workflows/{chooseNext, watchDone, fetchIcon}.yaml`
+1. confirm cron job setting. by default, it's defined constant expression values on `github/workflows/{chooseNext, watchDone, fetchIcon}.yaml`
     - chooseNext: '*/1 * * * *'
     - watchDone: '*/10 * * * *'
     - fetchIcon: '*/1 * * * *'
 
-## When using on Local
+## How to set environment value
+
+### When using on Local
 
 1. `$ cp .env.example .env`
 1. set each environmental value.
-## When using on GitHub Actions
+### When using on GitHub Actions
 
 1. fork or clone this repository.(highly recommend fork)
-1. move your repository Secrets settings and add your secret. FYI: [Encrypted secrets
-](https://docs.github.com/en/actions/security-guides/encrypted-secrets) sample images see below.
+1. move your repository Secrets settings and add your secret. FYI: [Encrypted secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) sample images see below.
     [![GitHub Actions Secrets](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)
 
 # Notes
