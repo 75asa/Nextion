@@ -64,7 +64,7 @@ export class NotionRepository {
       const { id, cover, properties } = page;
       return await this.#client.pages.update({
         page_id: id,
-        cover: cover.getCoverURL(),
+        cover: cover.getPageCover(),
         properties: properties,
       });
     } catch (e) {
