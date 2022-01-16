@@ -4,7 +4,7 @@ Notion Databaseのボードビューで、ランダムに次のページを選�
 
 [![Nextion-logo](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)
 
-[README: US 🇺🇸 ](https://github.com/tam-bourine/Nextion/blob/main/READMEP.md)
+[README: US 🇺🇸 ](https://github.com/tam-bourine/Nextion/blob/main/README.md)
 
 # 使用方法
 

@@ -28,12 +28,12 @@
     "yarn": ">=1.12.0"
   },
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/src/main.js",
   "repository": "git@github.com:tam-bourine/Nextion.git",
   "scripts": {
     "build": "tsc -p .",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "lint-fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
+    "lint:fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
     "test": "jest",
     "start": "node dist/src/main.js",
     "start:chooseNext": "node dist/src/main.js --mode=chooseNext",
