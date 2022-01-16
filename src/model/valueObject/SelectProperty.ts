@@ -2,8 +2,7 @@ import { Page } from "../../@types/notion-api-types";
 import { Config } from "../../Config";
 import { isDetectivePagePropertyType } from "../../utils";
 
-const PageStatus = Config.Notion.Status;
-const PageStatusValues = Object.values(PageStatus)[0];
+const { Status, PageStatusValues } = Config.Notion;
 
 type SelectType = Page.Property.Values.Select;
 
@@ -20,7 +19,7 @@ export class SelectProperty {
     const selectValue = propValue.select;
 
     if (!selectValue) {
-      this.#status = PageStatus.NO_STATUS as typeof PageStatusValues;
+      this.#status = Status.NO_STATUS as typeof PageStatusValues;
       this.#id = null;
       this.#color = null;
       return;
@@ -28,7 +27,7 @@ export class SelectProperty {
 
     const { name, color, id } = selectValue;
 
-    if (!Object.values(PageStatus).includes(name as typeof PageStatusValues)) {
+    if (!Object.values(Status).includes(name as typeof PageStatusValues)) {
       throw new Error(
         `option name is not PageStatusValues. name: ${name}, PageStatusValues: ${PageStatusValues}`
       );
@@ -37,17 +36,17 @@ export class SelectProperty {
     this.#status = name as typeof PageStatusValues;
 
     switch (name) {
-      case PageStatus.NEXT: {
+      case Status.NEXT: {
         this.#color = color;
         this.#id = id;
         break;
       }
-      case PageStatus.DONE: {
+      case Status.DONE: {
         this.#color = color;
         this.#id = id;
         break;
       }
-      case PageStatus.NO_TARGET: {
+      case Status.NO_TARGET: {
         this.#color = color;
         this.#id = id;
         break;

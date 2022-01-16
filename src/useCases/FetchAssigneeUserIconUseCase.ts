@@ -12,6 +12,7 @@ export class FetchAssigneeUserIconUseCase {
     return await Promise.all(
       pages.map(async (page) => {
         page.setAssignIconToPageCover();
+        page.changeTitle();
         return await lock.run(async () => {
           return await this.#repository.updatePage(page);
         });
