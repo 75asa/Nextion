@@ -71,12 +71,14 @@ export class PageEntity implements IPageEntity {
           acc[key] = propValue;
           return acc;
         }
-        propValue.select = {
-          name: pageStatus,
-          id: inputStatus!.id,
-          color: inputStatus!.color,
-        };
-        acc[key] = propValue;
+        if (inputStatus && inputStatus.id && inputStatus.color) {
+          propValue.select = {
+            name: pageStatus,
+            id: inputStatus.id,
+            color: inputStatus.color,
+          };
+          acc[key] = propValue;
+        }
         return acc;
       },
       {} as Page.Property.PropertyValueMap
