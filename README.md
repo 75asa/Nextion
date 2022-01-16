@@ -1,6 +1,12 @@
 # Nextion
 
-This is a Notion Integration to choose randomly next page for the board view of Notion Database.
+This is a Notion Integration to pick a next page at random for a Notion Database.
+
+[![Github issues](https://img.shields.io/github/issues/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/issues)
+[![Github forks](https://img.shields.io/github/forks/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/network/members)
+[![Github stars](https://img.shields.io/github/stars/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/stargazers)
+[![Github top language](https://img.shields.io/github/languages/top/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/)
+[![Github license](https://img.shields.io/github/license/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/)
 
 [![Nextion-logo](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)
 
@@ -24,8 +30,13 @@ This is a Notion Integration to choose randomly next page for the board view of 
 ### When using on GitHub Actions
 
 1. fork or clone this repository.(highly recommend fork)
-1. move your repository Secrets settings and add your secret. FYI: [Encrypted secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) sample images see below.
-    [![GitHub Actions Secrets](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)
+1. move your repository Secrets settings and add your secret.
+
+FYI: [Encrypted secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
+
+sample images see below.
+
+[![GitHub Actions Secrets](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)
 
 # Notes
 
@@ -56,3 +67,9 @@ This is a Notion Integration to choose randomly next page for the board view of 
 
 - [Start building with the Notion API BETA](https://developers.notion.com/)
 - [GitHub Actions](https://github.co.jp/features/actions)
+
+# Contributors
+
+- [75asa](https://github.com/75asa)
+
+- [k-gen](https://github.com/k-gen)
