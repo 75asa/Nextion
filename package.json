@@ -33,7 +33,7 @@
   "scripts": {
     "build": "tsc -p .",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "lint-fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
+    "lint:fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
     "test": "jest",
     "start": "node dist/src/main.js",
     "start:chooseNext": "node dist/src/main.js --mode=chooseNext",
