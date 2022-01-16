@@ -2,7 +2,7 @@
 
 This is a randomly choosing next page for the board view of Notion Database.
 
-[![Nextion-logo](image-url)](link)
+[![Nextion-logo](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)
 
 # How to use
 
@@ -23,7 +23,7 @@ This is a randomly choosing next page for the board view of Notion Database.
 1. fork or clone this repository.(highly recommend fork)
 1. move your repository Secrets settings and add your secret. FYI: [Encrypted secrets
 ](https://docs.github.com/en/actions/security-guides/encrypted-secrets) sample images see below.
-    [![GitHub Actions Secrets](image-url)](link)
+    [![GitHub Actions Secrets](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)
 
 # Notes
 
