@@ -10,7 +10,7 @@ Notion Database で、ランダムに次のページを選択する Notion Integ
 
 [![Nextion-logo](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)
 
-[README: US 🇺🇸 ](https://github.com/tam-bourine/Nextion/blob/main/README.md)
+[README: US 🇺🇸 ](https://github.com/tam-bourine/Nextion#readme)
 
 # 使用方法
 
