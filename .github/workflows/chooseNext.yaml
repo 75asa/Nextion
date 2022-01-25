@@ -2,7 +2,7 @@ name: chooseNext
 
 on:
   schedule:
-    - cron: '0 11 * * 1'
+    - cron: '30 10 * * 1'
 env:
   NOTION_KEY: ${{ secrets.NOTION_KEY }}
   NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
