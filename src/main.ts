@@ -19,10 +19,6 @@ const main = async () => {
     DATABASE_ID,
   });
 
-  // NOTE: DB 複数対応に向けて
-  // TODO: Integration が取得可能なデータベースを取得、プロパティなどの条件が合わないものはフィルター
-  // TODO: await Promise.all(databases.map(async (database) => {})) でデータベースごとに処理
-
   switch (args.mode) {
     case Config.Mode.CHOOSE_NEXT: {
       const handler = await new NextChooser(

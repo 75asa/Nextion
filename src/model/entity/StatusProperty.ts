@@ -27,23 +27,21 @@ export class StatusProperty {
       Done: null,
       NoTarget: null,
       NoStatus: null,
-    } as StatusPropertyMap;
+    };
 
     if (!targetProperty.select.options.length) {
       this.#statusPropertyMap = initValue;
       return;
     }
 
-    this.#statusPropertyMap = targetProperty.select.options.reduce(
-      (acc, cur) => {
+    this.#statusPropertyMap =
+      targetProperty.select.options.reduce<StatusPropertyMap>((acc, cur) => {
         const { id, name, color } = cur;
         if (name !== PageStatusValues) return acc;
         if (!id || !color) return acc;
-        acc[name as typeof PageStatusValues] = { id, color };
+        acc[name] = { id, color };
         return acc;
-      },
-      initValue
-    );
+      }, initValue);
   }
 
   get statusPropertyMap() {

@@ -6,7 +6,7 @@ const { Status, PageStatusValues } = Config.Notion;
 
 type SelectType = Page.Property.Values.Select;
 
-export class SelectProperty {
+export class StatusPropertyValue {
   #status: typeof PageStatusValues;
   #id: string | null;
   #color: string | null;
