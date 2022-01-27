@@ -19,7 +19,7 @@ export class GetAllPagesAndGroupByUseCase {
   }
   async invoke() {
     const pages = await this.#repository.getPages();
-    return pages.reduce(
+    return pages.reduce<GroupedByStatusPages>(
       (acc, cur) => {
         const { statusProperty: status } = cur;
 
@@ -51,7 +51,7 @@ export class GetAllPagesAndGroupByUseCase {
         Done: [],
         NoTarget: [],
         NoStatus: [],
-      } as GroupedByStatusPages
+      }
     );
   }
 }
