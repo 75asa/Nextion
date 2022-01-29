@@ -14,5 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: ./.github/actions/node-setup
-    - run: |
-        yarn start:fetchIcon
+    - run: yarn start:fetchIcon
