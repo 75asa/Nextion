@@ -36,9 +36,13 @@
     "lint:fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
     "test": "jest",
     "start": "node dist/src/main.js",
-    "start:chooseNext": "node dist/src/main.js --mode=chooseNext",
-    "start:watchDone": "node dist/src/main.js --mode=watchDone",
-    "start:fetchIcon": "node dist/src/main.js --mode=fetchIcon"
+    "start:chooseNext": "yarn start --mode=chooseNext",
+    "start:watchDone": "yarn start --mode=watchDone",
+    "start:fetchIcon": "yarn start --mode=fetchIcon",
+    "dev": "ts-node -r tsconfig-paths/register --files src/main.ts",
+    "dev:chooseNext": "yarn dev --mode=chooseNext",
+    "dev:watchDone": "yarn dev --mode=watchDone",
+    "dev:fetchIcon": "yarn dev --mode=fetchIcon"
   },
   "jest": {
     "moduleFileExtensions": [
