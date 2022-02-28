@@ -15,9 +15,9 @@ export class DoneWatcher {
       await this.getAllPagesAndGroupByUseCase.invoke();
     console.log({ NoStatus, Done });
     if (NoStatus.length) return;
-    // const target = [...Done];
+    const target = [...Done];
     // NOTE: 開発用
-    const target = [...Done, ...Next];
+    // const target = [...Done, ...Next];
     const lock = new ConcurrencyLock({ concurrency: 3, interval: 1000 });
     return await Promise.all(
       target.map(async (page) => {
