@@ -3,7 +3,7 @@ name: chooseNext
 on:
   schedule:
     # UTC のため日本時間 +9
-    - cron: '00 2 * * 1'
+    - cron: '30 1 * * 1'
 env:
   NOTION_KEY: ${{ secrets.NOTION_KEY }}
   NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
