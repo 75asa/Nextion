@@ -2,7 +2,7 @@ name: watchDone
 
 on:
   schedule:
-    - cron: '*/1 * * * *'
+    - cron: '*/10 * * * *'
 
 env:
   NOTION_KEY: ${{ secrets.NOTION_KEY }}
