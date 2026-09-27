@@ -10,7 +10,7 @@ export class UpdatePropertiesUseCase {
 
   async invoke(
     page: PageEntity,
-    pageStatus: typeof Config.Notion.PageStatusValues
+    pageStatus: typeof Config.Notion.PageStatusValues,
   ) {
     const statusProps = (await this.#repository.getStatusProperties())
       .statusPropertyMap[pageStatus];

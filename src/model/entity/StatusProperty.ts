@@ -17,7 +17,7 @@ export class StatusProperty {
     const targetProperty = properties[Prop.STATUS];
     if (
       !isDetectiveDatabasePropertyType<DB.Property.Values.Select>(
-        targetProperty
+        targetProperty,
       )
     ) {
       throw new Error("targetProperty is not PropertyValueSelect");

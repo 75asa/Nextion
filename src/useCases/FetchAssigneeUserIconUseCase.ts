@@ -16,7 +16,7 @@ export class FetchAssigneeUserIconUseCase {
         return await lock.run(async () => {
           return await this.#repository.updatePage(page);
         });
-      })
+      }),
     );
   }
 }

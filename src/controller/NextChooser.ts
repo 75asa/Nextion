@@ -7,7 +7,7 @@ import {
 export class NextChooser {
   constructor(
     private getAllPagesAndGroupByUseCase: GetAllPagesAndGroupByUseCase,
-    private updatePropertiesUseCase: UpdatePropertiesUseCase
+    private updatePropertiesUseCase: UpdatePropertiesUseCase,
   ) {}
   async run() {
     const { NoStatus } = await this.getAllPagesAndGroupByUseCase.invoke();
@@ -15,7 +15,7 @@ export class NextChooser {
     const chosenNext = NoStatus[Math.floor(Math.random() * NoStatus.length)];
     return await this.updatePropertiesUseCase.invoke(
       chosenNext,
-      Config.Notion.Status.NEXT
+      Config.Notion.Status.NEXT,
     );
   }
 }

@@ -1,6 +1,6 @@
 import { Config } from "../Config";
-import { NotionRepository } from "../repository/NotionRepository";
 import { PageEntity } from "../model/entity/Page";
+import { NotionRepository } from "../repository/NotionRepository";
 
 const { NEXT, DONE, NO_TARGET, NO_STATUS } = Config.Notion.Status;
 
@@ -51,7 +51,7 @@ export class GetAllPagesAndGroupByUseCase {
         Done: [],
         NoTarget: [],
         NoStatus: [],
-      }
+      },
     );
   }
 }

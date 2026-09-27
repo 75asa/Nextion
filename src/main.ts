@@ -1,6 +1,6 @@
 import { parse } from "ts-command-line-args";
 import { Config } from "./Config";
-import { NextChooser, DoneWatcher, IconFetcher } from "./controller";
+import { DoneWatcher, IconFetcher, NextChooser } from "./controller";
 import { NotionRepository } from "./repository/NotionRepository";
 import {
   FetchAssigneeUserIconUseCase,
@@ -23,7 +23,7 @@ const main = async () => {
     case Config.Mode.CHOOSE_NEXT: {
       const handler = await new NextChooser(
         new GetAllPagesAndGroupByUseCase(notionRepo),
-        new UpdatePropertiesUseCase(notionRepo)
+        new UpdatePropertiesUseCase(notionRepo),
       ).run();
       console.log({ handler });
       break;
@@ -31,14 +31,14 @@ const main = async () => {
     case Config.Mode.WATCH_DONE: {
       const handler = await new DoneWatcher(
         new GetAllPagesAndGroupByUseCase(notionRepo),
-        new UpdatePropertiesUseCase(notionRepo)
+        new UpdatePropertiesUseCase(notionRepo),
       ).run();
       console.log({ handler });
       break;
     }
     case Config.Mode.FETCH_ICON: {
       const handler = await new IconFetcher(
-        new FetchAssigneeUserIconUseCase(notionRepo)
+        new FetchAssigneeUserIconUseCase(notionRepo),
       ).run();
       console.log({ handler });
       break;

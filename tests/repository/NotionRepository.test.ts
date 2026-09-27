@@ -16,7 +16,7 @@ const buildRawPage = (id: string, archived = false) => ({
 });
 
 const mockQuery = (
-  responses: { results: unknown[]; next_cursor: string | null }[]
+  responses: { results: unknown[]; next_cursor: string | null }[],
 ) => {
   const query = jest.fn();
   for (const { results, next_cursor } of responses) {

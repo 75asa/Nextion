@@ -8,7 +8,7 @@ import { ConcurrencyLock } from "../utils";
 export class DoneWatcher {
   constructor(
     private getAllPagesAndGroupByUseCase: GetAllPagesAndGroupByUseCase,
-    private updatePropertiesUseCase: UpdatePropertiesUseCase
+    private updatePropertiesUseCase: UpdatePropertiesUseCase,
   ) {}
   async run() {
     const { NoStatus, Done, Next } =
@@ -24,10 +24,10 @@ export class DoneWatcher {
         return await lock.run(async () => {
           return await this.updatePropertiesUseCase.invoke(
             page,
-            Config.Notion.Status.NO_STATUS
+            Config.Notion.Status.NO_STATUS,
           );
         });
-      })
+      }),
     );
   }
 }

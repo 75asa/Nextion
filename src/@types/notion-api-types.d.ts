@@ -1,8 +1,8 @@
 import type {
-  ListBlockChildrenResponse,
-  SearchResponse,
-  QueryDatabaseResponse,
   GetDatabaseResponse,
+  ListBlockChildrenResponse,
+  QueryDatabaseResponse,
+  SearchResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 
 export declare namespace Database {
