@@ -1,5 +1,8 @@
 export class NotionError extends Error {
-  constructor(private code: string, message: string) {
+  constructor(
+    private code: string,
+    message: string,
+  ) {
     super(message);
     this.name = new.target.name;
   }

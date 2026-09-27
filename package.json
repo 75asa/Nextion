@@ -5,63 +5,35 @@
   "dependencies": {
     "@notionhq/client": "^0.4.9",
     "dayjs": "^1.10.7",
-    "dotenv": "^10.0.0",
     "ts-command-line-args": "^2.2.0"
   },
   "devDependencies": {
-    "@types/jest": "25.2.2",
-    "@typescript-eslint/eslint-plugin": "^5.6.0",
-    "@typescript-eslint/parser": "^5.6.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "23.13.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "jest": "26.0.1",
-    "prettier": "^2.5.1",
-    "ts-jest": "26.0.0",
-    "ts-node": "^10.4.0",
-    "tsconfig-paths": "^3.12.0",
-    "typescript": "^4.5.2"
+    "@biomejs/biome": "^2.5.14",
+    "@types/node": "^24.19.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.2"
   },
   "engines": {
     "node": ">=24"
   },
   "license": "MIT",
-  "main": "dist/src/main.js",
+  "main": "dist/main.js",
   "repository": "git@github.com:tam-bourine/Nextion.git",
   "scripts": {
-    "build": "tsc -p .",
-    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "lint:fix": "pnpm lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
-    "test": "jest",
-    "start": "node dist/src/main.js",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "vitest run",
+    "start": "node dist/main.js",
     "start:chooseNext": "pnpm start --mode=chooseNext",
     "start:watchDone": "pnpm start --mode=watchDone",
     "start:fetchIcon": "pnpm start --mode=fetchIcon",
-    "dev": "ts-node -r tsconfig-paths/register --files src/main.ts",
+    "dev": "tsx src/main.ts",
     "dev:chooseNext": "pnpm dev --mode=chooseNext",
     "dev:watchDone": "pnpm dev --mode=watchDone",
     "dev:fetchIcon": "pnpm dev --mode=fetchIcon"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "moduleNameMapper": {
-      "^~/(.+)": "<rootDir>/src/$1"
-    },
-    "transform": {
-      "^.+\\.ts$": "ts-jest"
-    },
-    "globals": {
-      "ts-jest": {
-        "tsConfig": "tsconfig.json"
-      }
-    },
-    "testMatch": [
-      "**/tests/**/*.test.ts"
-    ]
   },
   "packageManager": "pnpm@12.6.0"
 }

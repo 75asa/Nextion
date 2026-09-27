@@ -1,4 +1,7 @@
-import { Database as DB, PropertyColor } from "../../@types/notion-api-types";
+import type {
+  Database as DB,
+  PropertyColor,
+} from "../../@types/notion-api-types";
 import { Config } from "../../Config";
 import { isDetectiveDatabasePropertyType } from "../../utils";
 
@@ -17,7 +20,7 @@ export class StatusProperty {
     const targetProperty = properties[Prop.STATUS];
     if (
       !isDetectiveDatabasePropertyType<DB.Property.Values.Select>(
-        targetProperty
+        targetProperty,
       )
     ) {
       throw new Error("targetProperty is not PropertyValueSelect");

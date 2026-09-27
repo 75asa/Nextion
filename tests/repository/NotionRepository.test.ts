@@ -1,7 +1,8 @@
 import { Client } from "@notionhq/client/build/src";
+import { describe, expect, type Mock, test, vi } from "vitest";
 import { NotionRepository } from "../../src/repository/NotionRepository";
 
-jest.mock("@notionhq/client/build/src");
+vi.mock("@notionhq/client/build/src");
 
 const buildRawPage = (id: string, archived = false) => ({
   object: "page",
@@ -16,9 +17,9 @@ const buildRawPage = (id: string, archived = false) => ({
 });
 
 const mockQuery = (
-  responses: { results: unknown[]; next_cursor: string | null }[]
+  responses: { results: unknown[]; next_cursor: string | null }[],
 ) => {
-  const query = jest.fn();
+  const query = vi.fn();
   for (const { results, next_cursor } of responses) {
     query.mockResolvedValueOnce({
       results,
@@ -26,9 +27,11 @@ const mockQuery = (
       has_more: next_cursor !== null,
     });
   }
-  (Client as unknown as jest.Mock).mockImplementation(() => ({
-    databases: { query },
-  }));
+  (Client as unknown as Mock<new () => object>).mockImplementation(
+    class {
+      databases = { query };
+    },
+  );
   return query;
 };
 

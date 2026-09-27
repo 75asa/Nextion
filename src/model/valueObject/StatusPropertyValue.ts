@@ -1,4 +1,4 @@
-import { Page } from "../../@types/notion-api-types";
+import type { Page } from "../../@types/notion-api-types";
 import { Config } from "../../Config";
 import { isDetectivePagePropertyType } from "../../utils";
 
@@ -29,7 +29,7 @@ export class StatusPropertyValue {
 
     if (!Object.values(Status).includes(name as typeof PageStatusValues)) {
       throw new Error(
-        `option name is not PageStatusValues. name: ${name}, PageStatusValues: ${PageStatusValues}`
+        `option name is not PageStatusValues. name: ${name}, PageStatusValues: ${PageStatusValues}`,
       );
     }
 

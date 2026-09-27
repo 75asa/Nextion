@@ -1,8 +1,8 @@
-import { Page, PropertyColor } from "../../@types/notion-api-types";
-import { StatusPropertyValue } from "../valueObject/StatusPropertyValue";
+import type { Page, PropertyColor } from "../../@types/notion-api-types";
 import { Config } from "../../Config";
-import { PageCover } from "../valueObject/PageCover";
 import { AssignProperty } from "../valueObject/AssignProperty";
+import { PageCover } from "../valueObject/PageCover";
+import { StatusPropertyValue } from "../valueObject/StatusPropertyValue";
 import { TitleProperty } from "../valueObject/TitleProperty";
 
 export interface IPageEntity {
@@ -31,7 +31,7 @@ export class PageEntity implements IPageEntity {
     this.#id = id;
     this.#name = new TitleProperty(properties[Config.Notion.Prop.NAME]);
     this.#status = new StatusPropertyValue(
-      properties[Config.Notion.Prop.STATUS]
+      properties[Config.Notion.Prop.STATUS],
     );
     this.#cover = new PageCover(cover);
     this.#assign = new AssignProperty(properties[Config.Notion.Prop.ASSIGN]);
@@ -64,10 +64,10 @@ export class PageEntity implements IPageEntity {
 
   updateStatus(
     inputStatus: UpdateStatusInput,
-    pageStatus: typeof Config.Notion.PageStatusValues
+    pageStatus: typeof Config.Notion.PageStatusValues,
   ) {
     this.properties = Object.keys(
-      this.#properties
+      this.#properties,
     ).reduce<Page.Property.PropertyValueMap>((acc, key) => {
       const propValue = this.#properties[key];
       if (
@@ -82,7 +82,7 @@ export class PageEntity implements IPageEntity {
         acc[key] = propValue;
         return acc;
       }
-      if (inputStatus && inputStatus.id && inputStatus.color) {
+      if (inputStatus?.id && inputStatus.color) {
         propValue.select = {
           name: pageStatus,
           id: inputStatus.id,

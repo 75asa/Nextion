@@ -32,7 +32,7 @@ export class ConcurrencyLock {
           concurrency: this.#concurrency,
           waitingResolves: this.#waitingResolves,
         },
-        { depth: null }
+        { depth: null },
       );
       if (this.#running >= this.#concurrency) {
         this.#waitingResolves.push(resolve);
@@ -65,8 +65,8 @@ export class ConcurrencyLock {
       : new Date(
           Math.max(
             calledAt.getTime(),
-            this.#lastRunAt.getTime() + this.#interval
-          )
+            this.#lastRunAt.getTime() + this.#interval,
+          ),
         );
 
     this.#lastRunAt = willRunAt;

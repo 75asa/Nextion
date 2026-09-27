@@ -1,4 +1,4 @@
-import { Page, RichText } from "../../@types/notion-api-types";
+import type { Page, RichText } from "../../@types/notion-api-types";
 import { isDetectivePagePropertyType, reduceRichText } from "../../utils";
 
 type TitlePropertyType = Page.Property.Values.Title;
@@ -8,7 +8,7 @@ export class TitleProperty {
   constructor(propValue: Page.Property.PropertyValue) {
     if (!isDetectivePagePropertyType<TitlePropertyType>(propValue)) {
       throw new Error(
-        `Invalid NameProperty propValue: ${console.dir(propValue)}`
+        `Invalid NameProperty propValue: ${console.dir(propValue)}`,
       );
     }
     this.#name = reduceRichText(propValue.title);
@@ -41,7 +41,7 @@ export class TitleProperty {
   }
 
   isTitlePropertyType(
-    input: Page.Property.PropertyValue
+    input: Page.Property.PropertyValue,
   ): input is TitlePropertyType {
     return isDetectivePagePropertyType<TitlePropertyType>(input);
   }

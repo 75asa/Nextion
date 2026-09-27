@@ -1,4 +1,4 @@
-import { NotionRepository } from "../repository/NotionRepository";
+import type { NotionRepository } from "../repository/NotionRepository";
 import { ConcurrencyLock } from "../utils";
 
 export class FetchAssigneeUserIconUseCase {
@@ -16,7 +16,7 @@ export class FetchAssigneeUserIconUseCase {
         return await lock.run(async () => {
           return await this.#repository.updatePage(page);
         });
-      })
+      }),
     );
   }
 }
