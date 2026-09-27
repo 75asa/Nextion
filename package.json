@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "main": "dist/main.js",
-  "repository": "git@github.com:tam-bourine/Nextion.git",
+  "repository": "github:75asa/Nextion",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",

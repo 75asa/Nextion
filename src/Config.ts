@@ -23,7 +23,7 @@ export namespace Config {
     export const DATABASE_ID = process.env.NOTION_DATABASE_ID;
     export const NO_IMAGE_URL =
       process.env.NOTION_NO_IMAGE_URL ||
-      "https://github.com/tam-bourine/Nextion/blob/main/docs/images/NO_IMAGE.png";
+      "https://raw.githubusercontent.com/75asa/Nextion/main/docs/images/NO_IMAGE.png";
     export const Prop = {
       NAME: process.env.NOTION_NAME_PROP || "Name",
       STATUS: process.env.NOTION_STATUS_PROP || "Status",
