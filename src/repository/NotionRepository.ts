@@ -1,5 +1,8 @@
 import { Client } from "@notionhq/client/build/src";
-import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
+import {
+  QueryDatabaseParameters,
+  QueryDatabaseResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 import { Config } from "../Config";
 import { PageEntity } from "../model/entity/Page";
 import { StatusProperty } from "../model/entity/StatusProperty";
@@ -21,7 +24,7 @@ export class NotionRepository {
     return new StatusProperty(properties);
   }
 
-  async #crawl(startCursor?: string | null) {
+  async #crawl(startCursor?: string | null): Promise<QueryDatabaseResponse> {
     let res = null;
     const option: QueryDatabaseParameters = {
       database_id: this.#DATABASE_ID,
@@ -41,22 +44,16 @@ export class NotionRepository {
 
   async getPages() {
     const pages = [];
-    const { results, next_cursor, has_more } = await this.#crawl();
-    pages.push(...results);
-    if (has_more) this.#crawl(next_cursor);
+    let cursor: string | null = null;
+    do {
+      const res: QueryDatabaseResponse = await this.#crawl(cursor);
+      pages.push(...res.results);
+      cursor = res.has_more ? res.next_cursor : null;
+    } while (cursor);
 
-    return await Promise.all(
-      pages
-        .filter(async (page) => {
-          return page.archived === false;
-        })
-        .map(async (page) => {
-          return new PageEntity(page);
-        })
-        .filter(
-          (page): page is Exclude<typeof page, undefined> => page !== undefined
-        )
-    );
+    return pages
+      .filter((page) => page.archived === false)
+      .map((page) => new PageEntity(page));
   }
 
   async updatePage(page: PageEntity) {
