@@ -2,41 +2,69 @@
 
 This is a Notion Integration to pick a next page at random for a Notion Database.
 
-[![Github issues](https://img.shields.io/github/issues/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/issues)
-[![Github forks](https://img.shields.io/github/forks/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/network/members)
-[![Github stars](https://img.shields.io/github/stars/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/stargazers)
-[![Github top language](https://img.shields.io/github/languages/top/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/)
-[![Github license](https://img.shields.io/github/license/tam-bourine/Nextion)](https://github.com/tam-bourine/Nextion/)
+[![Github issues](https://img.shields.io/github/issues/75asa/Nextion)](https://github.com/75asa/Nextion/issues)
+[![Github forks](https://img.shields.io/github/forks/75asa/Nextion)](https://github.com/75asa/Nextion/network/members)
+[![Github stars](https://img.shields.io/github/stars/75asa/Nextion)](https://github.com/75asa/Nextion/stargazers)
+[![Github top language](https://img.shields.io/github/languages/top/75asa/Nextion)](https://github.com/75asa/Nextion/)
+[![Github license](https://img.shields.io/github/license/75asa/Nextion)](https://github.com/75asa/Nextion/)
 
-[![Nextion-logo](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/Nextion-log.png)
+![Nextion-logo](docs/images/Nextion-log.png)
 
-[README: JP 🇯🇵 ](https://github.com/tam-bourine/Nextion/blob/main/docs/README_JP.md)
+[README: JP 🇯🇵](docs/README_JP.md)
+
 # How to use
 
-1. click [here](https://developers.notion.com/) to get a Notion API key.
-1. set environment value to each use case. below section is for local & GitHub Actions.
-1. confirm your Notion Database property setting. by default, it's defined constant values on `src/Config.ts`. if you wanna change key or value, you can change it.
-1. confirm cron job setting. by default, it's defined constant expression values on `github/workflows/{chooseNext, watchDone, fetchIcon}.yaml`
-    - chooseNext: '*/1 * * * *'
-    - watchDone: '*/10 * * * *'
-    - fetchIcon: '*/1 * * * *'
+1. Create a Notion integration and get its API key at [Notion Developers](https://developers.notion.com/), then share your database with the integration.
+1. Set the environment variables (see below) for local or GitHub Actions use.
+1. Confirm your Notion database properties. By default, the property names are `Name` (title), `Status` (select) and `Assign` (person). You can change them with environment variables.
+1. Confirm the cron schedules in `.github/workflows/{chooseNext,watchDone,fetchIcon}.yaml` (times are UTC):
+    - chooseNext: `30 1 * * 1` (every Monday 10:30 JST)
+    - watchDone: `*/10 * * * *`
+    - fetchIcon: `*/10 * * * *`
 
-## How to set environment value
+## Requirements
+
+- Node.js 24 (see `.nvmrc`)
+- pnpm (the version is pinned in the `packageManager` field of `package.json`; run `corepack enable` or install pnpm yourself)
+
+## Environment variables
+
+| Name | Required | Default | Description |
+|---|---|---|---|
+| `NOTION_KEY` | ✅ | | Notion integration API key |
+| `NOTION_DATABASE_ID` | ✅ | | Target database ID |
+| `NOTION_NAME_PROP` | | `Name` | Title property name |
+| `NOTION_STATUS_PROP` | | `Status` | Select property name for the status (`Next` / `Done` / `NoTarget` / empty) |
+| `NOTION_ASSIGN_PROP` | | `Assign` | Person property name |
+| `NOTION_NO_IMAGE_URL` | | [NO_IMAGE.png](docs/images/NO_IMAGE.png) | Cover image used when the assignee has no avatar |
 
 ### When using on Local
 
-1. `$ cp .env.example .env`
-1. set each environmental value.
+1. `cp .env.example .env` and fill in the values.
+1. `pnpm install`
+1. Run one of the modes:
+    - `pnpm dev:chooseNext` / `pnpm dev:watchDone` / `pnpm dev:fetchIcon` (run TypeScript directly with tsx)
+    - or `pnpm build` then `pnpm start:chooseNext` etc.
+
 ### When using on GitHub Actions
 
-1. fork or clone this repository.(highly recommend fork)
-1. move your repository Secrets settings and add your secret.
+1. Fork this repository (highly recommended) or clone it.
+1. Go to your repository's Secrets settings and add `NOTION_KEY` and `NOTION_DATABASE_ID`.
 
-FYI: [Encrypted secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
+FYI: [Using secrets in GitHub Actions](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)
 
-sample images see below.
+![GitHub Actions Secrets](docs/images/github-setttings-Secrets.png)
 
-[![GitHub Actions Secrets](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)](https://github.com/tam-bourine/Nextion/blob/main/docs/images/github-setttings-Secrets.png)
+Note: GitHub automatically disables scheduled workflows after 60 days of repository inactivity. Re-enable them from the Actions tab if needed.
+
+# Development
+
+| Command | Description |
+|---|---|
+| `pnpm lint` / `pnpm lint:fix` | Lint & format check with Biome (`:fix` applies safe fixes) |
+| `pnpm typecheck` | Type check with TypeScript |
+| `pnpm test` | Run tests with Vitest |
+| `pnpm build` | Build to `dist/` |
 
 # Notes
 
@@ -44,32 +72,30 @@ sample images see below.
 
 ### Choose Next
 
-1. get all pages from database
-1. group by status in use case
-1. if nobody empty Status, nothing to do
-1. randomly select one of the pages with empty Status and set its status to NEXT.
+1. Get all pages from the database.
+1. Group them by status.
+1. If no page has an empty Status, do nothing.
+1. Randomly select one of the pages with an empty Status and set its status to `Next`.
 
 ### Watch Done
 
-1. get all pages from database
-1. group by status in use case
-1. if at least exist empty Status, nothing to do
-1. set all done pages status to empty
+1. Get all pages from the database.
+1. Group them by status.
+1. If at least one page has an empty Status, do nothing.
+1. Set the status of all `Done` pages to empty.
 
 ### Fetch Icon
 
-1. get all pages from a database
-1. get icon url from a assign (person property type on Notion)
-1. set page cover with icon url
-
+1. Get all pages from the database.
+1. Get the icon URL of the assignee (person property on Notion).
+1. Set the page cover to that icon URL.
 
 # FYI
 
-- [Start building with the Notion API BETA](https://developers.notion.com/)
-- [GitHub Actions](https://github.co.jp/features/actions)
+- [Notion Developers](https://developers.notion.com/)
+- [GitHub Actions](https://github.com/features/actions)
 
 # Contributors
 
 - [75asa](https://github.com/75asa)
-
 - [k-gen](https://github.com/k-gen)
