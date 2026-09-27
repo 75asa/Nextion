@@ -1,6 +1,6 @@
-import { Config } from "../Config";
-import { PageEntity } from "../model/entity/Page";
-import { NotionRepository } from "../repository/NotionRepository";
+import type { Config } from "../Config";
+import type { PageEntity } from "../model/entity/Page";
+import type { NotionRepository } from "../repository/NotionRepository";
 
 export class UpdatePropertiesUseCase {
   #repository;

@@ -1,4 +1,4 @@
-import { FetchAssigneeUserIconUseCase } from "../useCases";
+import type { FetchAssigneeUserIconUseCase } from "../useCases";
 
 export class IconFetcher {
   constructor(

@@ -1,4 +1,4 @@
-import { NotionRepository } from "../repository/NotionRepository";
+import type { NotionRepository } from "../repository/NotionRepository";
 import { ConcurrencyLock } from "../utils";
 
 export class FetchAssigneeUserIconUseCase {

@@ -1,4 +1,4 @@
-import { Page } from "../../@types/notion-api-types";
+import type { Page } from "../../@types/notion-api-types";
 import { isDetectivePagePropertyType } from "../../utils";
 
 export class AssignProperty {

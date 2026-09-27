@@ -1,4 +1,7 @@
-import { Database as DB, PropertyColor } from "../../@types/notion-api-types";
+import type {
+  Database as DB,
+  PropertyColor,
+} from "../../@types/notion-api-types";
 import { Config } from "../../Config";
 import { isDetectiveDatabasePropertyType } from "../../utils";
 

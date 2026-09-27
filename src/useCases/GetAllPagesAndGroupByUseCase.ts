@@ -1,6 +1,6 @@
 import { Config } from "../Config";
-import { PageEntity } from "../model/entity/Page";
-import { NotionRepository } from "../repository/NotionRepository";
+import type { PageEntity } from "../model/entity/Page";
+import type { NotionRepository } from "../repository/NotionRepository";
 
 const { NEXT, DONE, NO_TARGET, NO_STATUS } = Config.Notion.Status;
 

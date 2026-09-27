@@ -1,11 +1,8 @@
-import dotenv from "dotenv";
-
-const config = dotenv.config().parsed;
-
-if (config) {
-  for (const key in config) {
-    process.env[key] = config[key];
-  }
+try {
+  process.loadEnvFile();
+} catch (e) {
+  // .env is optional (e.g. on GitHub Actions, where secrets are set as env vars)
+  if ((e as NodeJS.ErrnoException).code !== "ENOENT") throw e;
 }
 
 export namespace Config {

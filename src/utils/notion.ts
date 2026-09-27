@@ -1,4 +1,4 @@
-import { Database, Page, RichText } from "../@types/notion-api-types";
+import type { Database, Page, RichText } from "../@types/notion-api-types";
 
 type PagePropertyValueType = Page.Property.PropertyValue;
 type DatabasePropertyValueType = Database.Property.PropertyValue;
@@ -22,6 +22,6 @@ export const isDetectiveDatabasePropertyType = <
 export const reduceRichText = (titleList: RichText.RichText[]) => {
   return titleList.reduce((acc, cur) => {
     if (!("plain_text" in cur)) return acc;
-    return (acc += (acc.length ? " " : "") + cur.plain_text);
+    return acc + (acc.length ? " " : "") + cur.plain_text;
   }, "");
 };

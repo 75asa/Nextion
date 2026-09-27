@@ -1,9 +1,9 @@
 import { Client } from "@notionhq/client/build/src";
-import {
+import type {
   QueryDatabaseParameters,
   QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { Config } from "../Config";
+import type { Config } from "../Config";
 import { PageEntity } from "../model/entity/Page";
 import { StatusProperty } from "../model/entity/StatusProperty";
 export class NotionRepository {

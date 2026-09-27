@@ -1,5 +1,5 @@
 import { Config } from "../Config";
-import {
+import type {
   GetAllPagesAndGroupByUseCase,
   UpdatePropertiesUseCase,
 } from "../useCases";

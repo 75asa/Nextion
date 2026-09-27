@@ -1,4 +1,4 @@
-import { Page, RichText } from "../../@types/notion-api-types";
+import type { Page, RichText } from "../../@types/notion-api-types";
 import { isDetectivePagePropertyType, reduceRichText } from "../../utils";
 
 type TitlePropertyType = Page.Property.Values.Title;

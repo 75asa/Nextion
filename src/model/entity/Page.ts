@@ -1,4 +1,4 @@
-import { Page, PropertyColor } from "../../@types/notion-api-types";
+import type { Page, PropertyColor } from "../../@types/notion-api-types";
 import { Config } from "../../Config";
 import { AssignProperty } from "../valueObject/AssignProperty";
 import { PageCover } from "../valueObject/PageCover";
@@ -82,7 +82,7 @@ export class PageEntity implements IPageEntity {
         acc[key] = propValue;
         return acc;
       }
-      if (inputStatus && inputStatus.id && inputStatus.color) {
+      if (inputStatus?.id && inputStatus.color) {
         propValue.select = {
           name: pageStatus,
           id: inputStatus.id,
