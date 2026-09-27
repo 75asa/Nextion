@@ -24,8 +24,7 @@
     "typescript": "^4.5.2"
   },
   "engines": {
-    "node": ">=16.4.0",
-    "yarn": ">=1.12.0"
+    "node": ">=24"
   },
   "license": "MIT",
   "main": "dist/src/main.js",
@@ -33,16 +32,16 @@
   "scripts": {
     "build": "tsc -p .",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "lint:fix": "yarn lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
+    "lint:fix": "pnpm lint --fix && prettier --write './{__tests__,src}/**/*.{js,ts}'",
     "test": "jest",
     "start": "node dist/src/main.js",
-    "start:chooseNext": "yarn start --mode=chooseNext",
-    "start:watchDone": "yarn start --mode=watchDone",
-    "start:fetchIcon": "yarn start --mode=fetchIcon",
+    "start:chooseNext": "pnpm start --mode=chooseNext",
+    "start:watchDone": "pnpm start --mode=watchDone",
+    "start:fetchIcon": "pnpm start --mode=fetchIcon",
     "dev": "ts-node -r tsconfig-paths/register --files src/main.ts",
-    "dev:chooseNext": "yarn dev --mode=chooseNext",
-    "dev:watchDone": "yarn dev --mode=watchDone",
-    "dev:fetchIcon": "yarn dev --mode=fetchIcon"
+    "dev:chooseNext": "pnpm dev --mode=chooseNext",
+    "dev:watchDone": "pnpm dev --mode=watchDone",
+    "dev:fetchIcon": "pnpm dev --mode=fetchIcon"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -63,5 +62,6 @@
     "testMatch": [
       "**/tests/**/*.test.ts"
     ]
-  }
+  },
+  "packageManager": "pnpm@12.6.0"
 }

@@ -1,18 +1,21 @@
 runs:
   using: "composite"
   steps:
-    - uses: actions/setup-node@v2
+    - uses: pnpm/action-setup@v6
+
+    - uses: actions/setup-node@v7
       with:
-        node-version: "17.x"
+        node-version-file: .nvmrc
+        cache: pnpm
 
     - name: Install dependencies
-      run: yarn
+      run: pnpm install --frozen-lockfile
       shell: bash
 
     - name: Check lint
-      run: yarn lint
+      run: pnpm lint
       shell: bash
 
     - name: Run build
-      run: yarn build
+      run: pnpm build
       shell: bash
