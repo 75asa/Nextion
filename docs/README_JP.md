@@ -50,6 +50,7 @@ Notion Database で、ランダムに次のページを選択する Notion Integ
 
 1. このリポジトリをフォーク（強く推奨）またはクローンします。
 1. リポジトリの Secrets 設定で `NOTION_KEY` と `NOTION_DATABASE_ID` を追加します。
+1. （任意）プロパティ名やアバターなし時の画像を変えたい場合は、上の任意の環境変数を同じ名前で Secrets に追加します。すべての workflow に渡され、未設定のものはデフォルト値になります。
 
 参考: [GitHub Actions でのシークレットの使用](https://docs.github.com/ja/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)
 
