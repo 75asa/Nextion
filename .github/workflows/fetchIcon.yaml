@@ -1,8 +1,18 @@
 name: fetchIcon
 
 on:
-  schedule:
-    - cron: '*/10 * * * *'
+  workflow_dispatch:
+  # Paused until the Notion client v5 upgrade (#72) is verified on a real
+  # database with a manual run. Uncomment to resume the schedule (#65).
+  # schedule:
+  #   - cron: '*/10 * * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 env:
   NOTION_KEY: ${{ secrets.NOTION_KEY }}
