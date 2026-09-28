@@ -1,118 +1,67 @@
-import type { Page, PropertyColor } from "../../@types/notion-api-types";
+import type { PageObjectResponse } from "@notionhq/client";
 import { Config } from "../../Config";
+import type { PageCoverUpdate, PagePropertiesUpdate } from "../../notion/types";
 import { AssignProperty } from "../valueObject/AssignProperty";
 import { PageCover } from "../valueObject/PageCover";
-import { StatusPropertyValue } from "../valueObject/StatusPropertyValue";
+import {
+  type PageStatus,
+  StatusPropertyValue,
+} from "../valueObject/StatusPropertyValue";
 import { TitleProperty } from "../valueObject/TitleProperty";
 
-export interface IPageEntity {
-  id: string;
-  name: TitleProperty;
-  statusProperty: StatusPropertyValue;
-  assignProperty: AssignProperty;
-  cover: PageCover;
-  properties: Page.Property.PropertyValueMap;
-}
+const { Prop } = Config.Notion;
 
-type UpdateStatusInput = {
-  id: string;
-  color: PropertyColor;
-} | null;
+export type PageUpdate = {
+  properties: PagePropertiesUpdate;
+  cover: PageCoverUpdate;
+};
 
-export class PageEntity implements IPageEntity {
+export class PageEntity {
   #id;
   #name;
   #status;
-  #properties;
   #assign;
   #cover;
-  constructor(args: Page.RawPage) {
-    const { id, properties, cover } = args;
+  #propertiesUpdate: PagePropertiesUpdate = {};
+
+  constructor(page: PageObjectResponse) {
+    const { id, properties, cover } = page;
     this.#id = id;
-    this.#name = new TitleProperty(properties[Config.Notion.Prop.NAME]);
-    this.#status = new StatusPropertyValue(
-      properties[Config.Notion.Prop.STATUS],
-    );
+    this.#name = new TitleProperty(properties[Prop.NAME]);
+    this.#status = new StatusPropertyValue(properties[Prop.STATUS]);
+    this.#assign = new AssignProperty(properties[Prop.ASSIGN]);
     this.#cover = new PageCover(cover);
-    this.#assign = new AssignProperty(properties[Config.Notion.Prop.ASSIGN]);
-    this.#properties = properties;
   }
 
   get id() {
     return this.#id;
   }
 
+  get name() {
+    return this.#name;
+  }
+
   get statusProperty() {
     return this.#status;
-  }
-
-  get properties() {
-    return this.#properties;
-  }
-
-  set properties(value: Page.Property.PropertyValueMap) {
-    this.#properties = value;
   }
 
   get assignProperty() {
     return this.#assign;
   }
 
-  get name() {
-    return this.#name;
+  get cover() {
+    return this.#cover;
   }
 
-  updateStatus(
-    inputStatus: UpdateStatusInput,
-    pageStatus: typeof Config.Notion.PageStatusValues,
-  ) {
-    this.properties = Object.keys(
-      this.#properties,
-    ).reduce<Page.Property.PropertyValueMap>((acc, key) => {
-      const propValue = this.#properties[key];
-      if (
-        !this.#status.isStatusProperty(propValue) ||
-        key !== Config.Notion.Prop.STATUS
-      ) {
-        acc[key] = propValue;
-        return acc;
-      }
-      if (pageStatus === "NoStatus") {
-        propValue.select = null;
-        acc[key] = propValue;
-        return acc;
-      }
-      if (inputStatus?.id && inputStatus.color) {
-        propValue.select = {
-          name: pageStatus,
-          id: inputStatus.id,
-          color: inputStatus.color,
-        };
-        acc[key] = propValue;
-      }
-      return acc;
-    }, {});
+  updateStatus(status: PageStatus) {
+    this.#propertiesUpdate[Prop.STATUS] = StatusPropertyValue.toUpdate(status);
   }
 
   changeTitle() {
     if (this.#name.name || !this.#assign.name) return;
-    this.properties = Object.keys(this.#properties).reduce((acc, key) => {
-      const propValue = this.#properties[key];
-      if (
-        !this.name.isTitlePropertyType(propValue) ||
-        key !== Config.Notion.Prop.NAME
-      ) {
-        acc[key] = propValue;
-        return acc;
-      }
-      if (!this.#assign.name) {
-        acc[key] = propValue;
-        return acc;
-      }
-      propValue.title = [this.#name.generateTitleProperty(this.#assign.name)];
-      acc[key] = propValue;
-      return acc;
-    }, {} as Page.Property.PropertyValueMap);
+    this.#propertiesUpdate[Prop.NAME] = TitleProperty.toUpdate(
+      this.#assign.name,
+    );
   }
 
   setAssignIconToPageCover() {
@@ -120,7 +69,16 @@ export class PageEntity implements IPageEntity {
     this.#cover.coverURL = this.#assign.avatarURL;
   }
 
-  get cover() {
-    return this.#cover;
+  get hasChanges(): boolean {
+    return (
+      Object.keys(this.#propertiesUpdate).length > 0 || this.#cover.isChanged
+    );
+  }
+
+  toUpdate(): PageUpdate {
+    return {
+      properties: this.#propertiesUpdate,
+      cover: this.#cover.isChanged ? this.#cover.toUpdate() : undefined,
+    };
   }
 }

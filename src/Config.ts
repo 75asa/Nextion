@@ -21,6 +21,8 @@ export namespace Config {
   export namespace Notion {
     export const KEY = process.env.NOTION_KEY;
     export const DATABASE_ID = process.env.NOTION_DATABASE_ID;
+    // optional: only needed when the database has multiple data sources
+    export const DATA_SOURCE_ID = process.env.NOTION_DATA_SOURCE_ID;
     export const NO_IMAGE_URL =
       process.env.NOTION_NO_IMAGE_URL ||
       "https://raw.githubusercontent.com/75asa/Nextion/main/docs/images/NO_IMAGE.png";
@@ -35,6 +37,5 @@ export namespace Config {
       NO_TARGET: "NoTarget",
       NO_STATUS: "NoStatus",
     } as const;
-    export const PageStatusValues = Object.values(Config.Notion.Status)[0];
   }
 }

@@ -1,28 +1,37 @@
-import type { Page } from "../../@types/notion-api-types";
 import { Config } from "../../Config";
+import type { PageCoverUpdate, PageCoverValue } from "../../notion/types";
 
 export class PageCover {
-  #coverURL: Extract<Page.PageCover, { type: "external" }> = {
-    type: "external",
-    external: {
-      url: Config.Notion.NO_IMAGE_URL,
-    },
-  };
-  constructor(prop: Page.PageCover) {
-    if (!prop || prop.type === "file") return;
-    this.#coverURL = prop;
+  #current: PageCoverValue;
+  #next: string | null = null;
+
+  constructor(cover: PageCoverValue) {
+    this.#current = cover;
+    // pages without any cover get the placeholder image
+    if (!cover) this.#next = Config.Notion.NO_IMAGE_URL;
   }
 
-  get coverURL(): string {
-    return this.#coverURL.external.url;
+  get coverURL(): string | null {
+    if (this.#next) return this.#next;
+    return this.#current?.type === "external"
+      ? this.#current.external.url
+      : null;
   }
 
   set coverURL(url: string) {
-    this.#coverURL.external.url = url;
-    return;
+    this.#next = url;
   }
 
-  getPageCover() {
-    return this.#coverURL;
+  get isChanged(): boolean {
+    if (!this.#next) return false;
+    return !(
+      this.#current?.type === "external" &&
+      this.#current.external.url === this.#next
+    );
+  }
+
+  toUpdate(): PageCoverUpdate {
+    if (!this.#next) return undefined;
+    return { type: "external", external: { url: this.#next } };
   }
 }

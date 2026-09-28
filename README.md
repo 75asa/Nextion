@@ -33,6 +33,7 @@ This is a Notion Integration to pick a next page at random for a Notion Database
 |---|---|---|---|
 | `NOTION_KEY` | ✅ | | Notion integration API key |
 | `NOTION_DATABASE_ID` | ✅ | | Target database ID |
+| `NOTION_DATA_SOURCE_ID` | | | Data source ID. Only needed when the database has multiple data sources (Notion API 2025-09-03+) |
 | `NOTION_NAME_PROP` | | `Name` | Title property name |
 | `NOTION_STATUS_PROP` | | `Status` | Select property name for the status (`Next` / `Done` / `NoTarget` / empty) |
 | `NOTION_ASSIGN_PROP` | | `Assign` | Person property name |

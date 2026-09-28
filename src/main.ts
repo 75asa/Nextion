@@ -8,7 +8,7 @@ import {
   UpdatePropertiesUseCase,
 } from "./useCases";
 
-const { KEY, DATABASE_ID } = Config.Notion;
+const { KEY, DATABASE_ID, DATA_SOURCE_ID } = Config.Notion;
 
 const main = async () => {
   const args = parse<Config.CLI_ARGS>({
@@ -17,6 +17,7 @@ const main = async () => {
   const notionRepo = new NotionRepository({
     KEY,
     DATABASE_ID,
+    DATA_SOURCE_ID,
   });
 
   switch (args.mode) {

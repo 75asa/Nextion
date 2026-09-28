@@ -33,6 +33,7 @@ Notion Database で、ランダムに次のページを選択する Notion Integ
 |---|---|---|---|
 | `NOTION_KEY` | ✅ | | Notion Integration の API キー |
 | `NOTION_DATABASE_ID` | ✅ | | 対象データベースの ID |
+| `NOTION_DATA_SOURCE_ID` | | | データソース ID。データベースに複数のデータソースがある場合のみ必要（Notion API 2025-09-03 以降） |
 | `NOTION_NAME_PROP` | | `Name` | タイトルプロパティ名 |
 | `NOTION_STATUS_PROP` | | `Status` | ステータスのセレクトプロパティ名（`Next` / `Done` / `NoTarget` / 空） |
 | `NOTION_ASSIGN_PROP` | | `Assign` | ユーザープロパティ名 |
