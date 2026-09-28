@@ -169,9 +169,6 @@ importers:
       '@notionhq/client':
         specifier: ^5.26.0
         version: 5.26.0
-      dayjs:
-        specifier: ^1.10.7
-        version: 1.10.7
       ts-command-line-args:
         specifier: ^2.2.0
         version: 2.2.0
@@ -721,9 +718,6 @@ packages:
   command-line-usage@6.1.1:
     resolution: {integrity: sha512-F59pEuAR9o1SF/bD0dQBDluhpT4jJQNWUHEuVBqpDmCUo6gPjCi+m9fCWnWZVR/oG6cMTUms4h+3NPl74wGXvA==}
     engines: {node: '>=8.0.0'}
-
-  dayjs@1.10.7:
-    resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}
 
   deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
@@ -1350,8 +1344,6 @@ snapshots:
       chalk: 2.4.2
       table-layout: 1.0.2
       typical: 5.2.0
-
-  dayjs@1.10.7: {}
 
   deep-extend@0.6.0: {}
 
