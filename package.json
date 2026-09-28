@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "75asa <75asa.me@gmail.com>",
   "dependencies": {
-    "@notionhq/client": "^0.4.9",
+    "@notionhq/client": "^5.26.0",
     "dayjs": "^1.10.7",
     "ts-command-line-args": "^2.2.0"
   },

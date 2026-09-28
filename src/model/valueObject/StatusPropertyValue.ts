@@ -1,76 +1,44 @@
-import type { Page } from "../../@types/notion-api-types";
 import { Config } from "../../Config";
-import { isDetectivePagePropertyType } from "../../utils";
+import {
+  isPropertyOfType,
+  type PagePropertiesUpdate,
+  type PagePropertyValue,
+} from "../../notion/types";
 
-const { Status, PageStatusValues } = Config.Notion;
+const { Status } = Config.Notion;
 
-type SelectType = Page.Property.Values.Select;
+export type PageStatus = (typeof Status)[keyof typeof Status];
+
+const isPageStatus = (name: string): name is PageStatus =>
+  (Object.values(Status) as string[]).includes(name);
 
 export class StatusPropertyValue {
-  #status: typeof PageStatusValues;
-  #id: string | null;
-  #color: string | null;
+  #status: PageStatus;
 
-  constructor(propValue: Page.Property.PropertyValue) {
-    if (!isDetectivePagePropertyType<Page.Property.Values.Select>(propValue)) {
-      throw new Error("propValue is not PropertyValueSelect");
+  constructor(propValue: PagePropertyValue | undefined) {
+    if (!isPropertyOfType(propValue, "select")) {
+      throw new Error(`Status property is not a select: ${propValue?.type}`);
     }
-
-    const selectValue = propValue.select;
-
-    if (!selectValue) {
-      this.#status = Status.NO_STATUS as typeof PageStatusValues;
-      this.#id = null;
-      this.#color = null;
+    const name = propValue.select?.name;
+    if (!name) {
+      this.#status = Status.NO_STATUS;
       return;
     }
-
-    const { name, color, id } = selectValue;
-
-    if (!Object.values(Status).includes(name as typeof PageStatusValues)) {
+    if (!isPageStatus(name)) {
       throw new Error(
-        `option name is not PageStatusValues. name: ${name}, PageStatusValues: ${PageStatusValues}`,
+        `Unknown status option: ${name} (expected one of ${Object.values(Status).join(", ")})`,
       );
     }
-
-    this.#status = name as typeof PageStatusValues;
-
-    switch (name) {
-      case Status.NEXT: {
-        this.#color = color;
-        this.#id = id;
-        break;
-      }
-      case Status.DONE: {
-        this.#color = color;
-        this.#id = id;
-        break;
-      }
-      case Status.NO_TARGET: {
-        this.#color = color;
-        this.#id = id;
-        break;
-      }
-      default: {
-        this.#color = null;
-        this.#id = null;
-        break;
-      }
-    }
+    this.#status = name;
   }
+
   get status() {
     return this.#status;
   }
 
-  get id() {
-    return this.#id;
-  }
-
-  get color() {
-    return this.#color;
-  }
-
-  isStatusProperty(input: Page.Property.PropertyValue): input is SelectType {
-    return isDetectivePagePropertyType<SelectType>(input);
+  static toUpdate(status: PageStatus): PagePropertiesUpdate[string] {
+    return {
+      select: status === Status.NO_STATUS ? null : { name: status },
+    };
   }
 }

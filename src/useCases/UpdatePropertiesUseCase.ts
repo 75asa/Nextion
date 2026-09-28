@@ -1,5 +1,5 @@
-import type { Config } from "../Config";
 import type { PageEntity } from "../model/entity/Page";
+import type { PageStatus } from "../model/valueObject/StatusPropertyValue";
 import type { NotionRepository } from "../repository/NotionRepository";
 
 export class UpdatePropertiesUseCase {
@@ -8,13 +8,8 @@ export class UpdatePropertiesUseCase {
     this.#repository = repository;
   }
 
-  async invoke(
-    page: PageEntity,
-    pageStatus: typeof Config.Notion.PageStatusValues,
-  ) {
-    const statusProps = (await this.#repository.getStatusProperties())
-      .statusPropertyMap[pageStatus];
-    page.updateStatus(statusProps, pageStatus);
+  async invoke(page: PageEntity, pageStatus: PageStatus) {
+    page.updateStatus(pageStatus);
     return await this.#repository.updatePage(page);
   }
 }

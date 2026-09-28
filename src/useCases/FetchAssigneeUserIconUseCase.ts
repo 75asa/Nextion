@@ -9,14 +9,18 @@ export class FetchAssigneeUserIconUseCase {
   async invoke() {
     const pages = await this.#repository.getPages();
     const lock = new ConcurrencyLock({ concurrency: 3, interval: 1000 });
+    for (const page of pages) {
+      page.setAssignIconToPageCover();
+      page.changeTitle();
+    }
     return await Promise.all(
-      pages.map(async (page) => {
-        page.setAssignIconToPageCover();
-        page.changeTitle();
-        return await lock.run(async () => {
-          return await this.#repository.updatePage(page);
-        });
-      }),
+      pages
+        .filter((page) => page.hasChanges)
+        .map(async (page) => {
+          return await lock.run(async () => {
+            return await this.#repository.updatePage(page);
+          });
+        }),
     );
   }
 }

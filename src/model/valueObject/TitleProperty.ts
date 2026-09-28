@@ -1,48 +1,39 @@
-import type { Page, RichText } from "../../@types/notion-api-types";
-import { isDetectivePagePropertyType, reduceRichText } from "../../utils";
-
-type TitlePropertyType = Page.Property.Values.Title;
+import {
+  isPropertyOfType,
+  type PagePropertiesUpdate,
+  type PagePropertyValue,
+} from "../../notion/types";
+import { reduceRichText } from "../../utils";
 
 export class TitleProperty {
   #name: string;
-  constructor(propValue: Page.Property.PropertyValue) {
-    if (!isDetectivePagePropertyType<TitlePropertyType>(propValue)) {
-      throw new Error(
-        `Invalid NameProperty propValue: ${console.dir(propValue)}`,
-      );
+  constructor(propValue: PagePropertyValue | undefined) {
+    if (!isPropertyOfType(propValue, "title")) {
+      throw new Error(`Title property is not a title: ${propValue?.type}`);
     }
     this.#name = reduceRichText(propValue.title);
   }
+
   get name(): string {
     return this.#name;
   }
-  set name(name: string) {
-    this.#name = name;
-  }
 
-  generateTitleProperty(input: string): RichText.AllRichText.Text {
+  static toUpdate(input: string): PagePropertiesUpdate[string] {
     return {
-      type: "text",
-      text: {
-        content: input,
-        link: null,
-      },
-      annotations: {
-        bold: true,
-        italic: false,
-        strikethrough: false,
-        underline: true,
-        code: true,
-        color: "default",
-      },
-      plain_text: input,
-      href: null,
+      title: [
+        {
+          type: "text",
+          text: { content: input, link: null },
+          annotations: {
+            bold: true,
+            italic: false,
+            strikethrough: false,
+            underline: true,
+            code: true,
+            color: "default",
+          },
+        },
+      ],
     };
-  }
-
-  isTitlePropertyType(
-    input: Page.Property.PropertyValue,
-  ): input is TitlePropertyType {
-    return isDetectivePagePropertyType<TitlePropertyType>(input);
   }
 }

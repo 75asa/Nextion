@@ -1,23 +1,19 @@
-import type { Page } from "../../@types/notion-api-types";
-import { isDetectivePagePropertyType } from "../../utils";
+import { isPropertyOfType, type PagePropertyValue } from "../../notion/types";
 
 export class AssignProperty {
   #id: string | null = null;
   #name: string | null = null;
   #avatarURL: string | null = null;
 
-  constructor(propValue: Page.Property.PropertyValue) {
-    if (!isDetectivePagePropertyType<Page.Property.Values.People>(propValue)) {
-      throw new Error("propValue is not PropertyValuePeople");
+  constructor(propValue: PagePropertyValue | undefined) {
+    if (!isPropertyOfType(propValue, "people")) {
+      throw new Error(`Assign property is not a people: ${propValue?.type}`);
     }
-    const assignValue = propValue.people;
-    if (!assignValue.length) return;
-    const firstAssign = assignValue[0];
-    if (!("type" in firstAssign)) return;
-    const { id, name, avatar_url } = firstAssign;
-    this.#id = id;
-    this.#name = name;
-    this.#avatarURL = avatar_url;
+    const [firstAssign] = propValue.people;
+    if (!firstAssign || !("type" in firstAssign)) return;
+    this.#id = firstAssign.id;
+    this.#name = firstAssign.name;
+    this.#avatarURL = firstAssign.avatar_url;
   }
 
   get id(): string | null {
