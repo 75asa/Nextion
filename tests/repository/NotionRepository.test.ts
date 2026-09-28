@@ -10,6 +10,7 @@ vi.mock("@notionhq/client", async (importOriginal) => ({
 
 const databasesRetrieve = vi.fn();
 const dataSourcesQuery = vi.fn();
+const dataSourcesRetrieve = vi.fn();
 const pagesUpdate = vi.fn();
 
 const mockQuery = (
@@ -29,13 +30,14 @@ beforeEach(() => {
   (Client as unknown as Mock<new () => object>).mockImplementation(
     class {
       databases = { retrieve: databasesRetrieve };
-      dataSources = { query: dataSourcesQuery };
+      dataSources = { query: dataSourcesQuery, retrieve: dataSourcesRetrieve };
       pages = { update: pagesUpdate };
     },
   );
   databasesRetrieve.mockResolvedValue({
     object: "database",
     id: "db",
+    title: [],
     data_sources: [{ id: "ds-1", name: "Main" }],
   });
 });
@@ -102,6 +104,7 @@ describe("NotionRepository#getPages", () => {
     databasesRetrieve.mockResolvedValue({
       object: "database",
       id: "db",
+      title: [],
       data_sources: [
         { id: "ds-1", name: "A" },
         { id: "ds-2", name: "B" },
@@ -111,6 +114,55 @@ describe("NotionRepository#getPages", () => {
     await expect(new NotionRepository(config).getPages()).rejects.toThrow(
       /NOTION_DATA_SOURCE_ID.*A \(ds-1\), B \(ds-2\)/,
     );
+  });
+});
+
+test("NotionRepository fails clearly when the database is not readable", async () => {
+  databasesRetrieve.mockResolvedValue({ object: "database", id: "db" });
+
+  await expect(
+    new NotionRepository({ KEY: "key", DATABASE_ID: "db" }).getPages(),
+  ).rejects.toThrow(/Could not read database db\. Make sure it is shared/);
+});
+
+describe("NotionRepository#getStatusOptionNames", () => {
+  const config = { KEY: "key", DATABASE_ID: "db", DATA_SOURCE_ID: "ds-1" };
+
+  test("returns the select options and fetches the schema only once", async () => {
+    dataSourcesRetrieve.mockResolvedValue({
+      object: "data_source",
+      id: "ds-1",
+      title: [],
+      properties: {
+        Status: {
+          type: "select",
+          select: { options: [{ name: "Next" }, { name: "Done" }] },
+        },
+      },
+    });
+    const repository = new NotionRepository(config);
+
+    expect(await repository.getStatusOptionNames()).toEqual(
+      new Set(["Next", "Done"]),
+    );
+    await repository.getStatusOptionNames();
+    expect(dataSourcesRetrieve).toHaveBeenCalledTimes(1);
+    expect(dataSourcesRetrieve).toHaveBeenCalledWith({
+      data_source_id: "ds-1",
+    });
+  });
+
+  test("throws when the status property is not a select", async () => {
+    dataSourcesRetrieve.mockResolvedValue({
+      object: "data_source",
+      id: "ds-1",
+      title: [],
+      properties: { Status: { type: "status", status: { options: [] } } },
+    });
+
+    await expect(
+      new NotionRepository(config).getStatusOptionNames(),
+    ).rejects.toThrow(/Status property "Status" is not a select: status/);
   });
 });
 

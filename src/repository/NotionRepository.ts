@@ -1,11 +1,18 @@
-import { Client, collectPaginatedAPI, isFullPage } from "@notionhq/client";
-import type { Config } from "../Config";
+import {
+  Client,
+  collectPaginatedAPI,
+  isFullDatabase,
+  isFullDataSource,
+  isFullPage,
+} from "@notionhq/client";
+import { Config } from "../Config";
 import { PageEntity } from "../model/entity/Page";
 
 export class NotionRepository {
   #client;
   #DATABASE_ID;
   #dataSourceId: Promise<string> | undefined;
+  #statusOptionNames: Promise<Set<string>> | undefined;
 
   constructor(notionConfig: Partial<typeof Config.Notion>) {
     const { KEY, DATABASE_ID, DATA_SOURCE_ID } = notionConfig;
@@ -25,12 +32,39 @@ export class NotionRepository {
     const database = await this.#client.databases.retrieve({
       database_id: this.#DATABASE_ID,
     });
-    const dataSources = "data_sources" in database ? database.data_sources : [];
+    if (!isFullDatabase(database)) {
+      throw new Error(
+        `Could not read database ${this.#DATABASE_ID}. Make sure it is shared with the integration.`,
+      );
+    }
+    const dataSources = database.data_sources;
     if (dataSources.length === 1) return dataSources[0].id;
     const list = dataSources.map(({ id, name }) => `${name} (${id})`);
     throw new Error(
       `Database has ${dataSources.length} data sources. Set NOTION_DATA_SOURCE_ID to one of: ${list.join(", ")}`,
     );
+  }
+
+  // Option names of the status select property, fetched once per run.
+  getStatusOptionNames() {
+    this.#statusOptionNames ??= this.#fetchStatusOptionNames();
+    return this.#statusOptionNames;
+  }
+
+  async #fetchStatusOptionNames() {
+    const dataSource = await this.#client.dataSources.retrieve({
+      data_source_id: await this.#getDataSourceId(),
+    });
+    if (!isFullDataSource(dataSource)) {
+      throw new Error("Could not read the data source schema");
+    }
+    const property = dataSource.properties[Config.Notion.Prop.STATUS];
+    if (property?.type !== "select") {
+      throw new Error(
+        `Status property "${Config.Notion.Prop.STATUS}" is not a select: ${property?.type}`,
+      );
+    }
+    return new Set(property.select.options.map(({ name }) => name));
   }
 
   async getPages() {
