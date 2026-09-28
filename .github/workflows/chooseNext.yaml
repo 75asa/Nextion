@@ -1,9 +1,19 @@
 name: chooseNext
 
 on:
-  schedule:
-    # UTC のため日本時間 +9
-    - cron: '30 1 * * 1'
+  workflow_dispatch:
+  # Paused until the Notion client v5 upgrade (#72) is verified on a real
+  # database with a manual run. Uncomment to resume the schedule (#65).
+  # schedule:
+  #   - cron: '30 1 * * 1'  # UTC (every Monday 10:30 JST)
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 env:
   NOTION_KEY: ${{ secrets.NOTION_KEY }}
   NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}

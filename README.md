@@ -22,6 +22,8 @@ This is a Notion Integration to pick a next page at random for a Notion Database
     - watchDone: `*/10 * * * *`
     - fetchIcon: `*/10 * * * *`
 
+    The schedules are currently commented out (paused, see #65). Each workflow can also be run manually from the Actions tab (`workflow_dispatch`).
+
 ## Requirements
 
 - Node.js 24 (see `.nvmrc`)

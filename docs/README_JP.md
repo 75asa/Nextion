@@ -22,6 +22,8 @@ Notion Database で、ランダムに次のページを選択する Notion Integ
     - watchDone: `*/10 * * * *`
     - fetchIcon: `*/10 * * * *`
 
+    現在、スケジュールはコメントアウトして停止中です（#65 参照）。各 workflow は Actions タブから手動実行（`workflow_dispatch`）もできます。
+
 ## 必要な環境
 
 - Node.js 24（`.nvmrc` 参照）
