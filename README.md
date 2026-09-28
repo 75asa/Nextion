@@ -50,6 +50,7 @@ This is a Notion Integration to pick a next page at random for a Notion Database
 
 1. Fork this repository (highly recommended) or clone it.
 1. Go to your repository's Secrets settings and add `NOTION_KEY` and `NOTION_DATABASE_ID`.
+1. (Optional) To override the property names or the no-image URL, add the optional variables above as Secrets with the same names. They are passed to every workflow; unset ones fall back to the defaults.
 
 FYI: [Using secrets in GitHub Actions](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions)
 

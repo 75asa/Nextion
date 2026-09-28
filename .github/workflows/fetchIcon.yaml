@@ -7,6 +7,11 @@ on:
 env:
   NOTION_KEY: ${{ secrets.NOTION_KEY }}
   NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+  # optional: empty values fall back to the defaults in src/Config.ts
+  NOTION_NAME_PROP: ${{ secrets.NOTION_NAME_PROP }}
+  NOTION_STATUS_PROP: ${{ secrets.NOTION_STATUS_PROP }}
+  NOTION_ASSIGN_PROP: ${{ secrets.NOTION_ASSIGN_PROP }}
+  NOTION_NO_IMAGE_URL: ${{ secrets.NOTION_NO_IMAGE_URL }}
 
 jobs:
   fetchIcon:
